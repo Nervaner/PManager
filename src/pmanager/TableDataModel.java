@@ -21,14 +21,12 @@ public class TableDataModel extends AbstractTableModel {
     public String tableLink;
     public TableCellModel[] cellsModel;
     private TableInternalFrame bindedFrame;
-    //private ArrayList<Object[]> data;
     private HashMap data;
             
-    public TableDataModel(String tableName, String tableLabel, TableCellModel[] cellsModel, String wherePart) {
+    public TableDataModel(String tableName, String tableLabel, TableCellModel[] cellsModel, String query) {
         this.tableName = tableName;
         this.tableLabel = tableLabel;
         this.tableLink = tableLink;
-        StringBuilder sb = new StringBuilder();
         HashSet set = new HashSet();
         data = new HashMap();
         for (int i = 0; i < cellsModel.length; ++i) {
@@ -36,56 +34,7 @@ public class TableDataModel extends AbstractTableModel {
                 set.add(cellsModel[i].tableLink);
             data.put(cellsModel[i].columnName, new ArrayList<>());
         }
-        sb.append("SELECT ");
-        for (int i = 0; i < cellsModel.length; ++i) {
-            if (set.contains(cellsModel[i].tableLink) ){ 
-                sb.append(cellsModel[i].tableLink);
-                sb.append(".name");
-            } else {
-                sb.append(tableName);
-                sb.append(".");
-                sb.append(cellsModel[i].columnName);
-            }
-            
-            if (i != cellsModel.length - 1)
-                sb.append(", ");
-        }
-        sb.append(" FROM ");
-        sb.append(tableName);
-        for (Object s : set) {
-            sb.append(", ");
-            sb.append((String)s);
-            
-        }
-        //sb.delete(sb.length()-1, sb.length());
-        
-        if (!wherePart.isEmpty()) {
-            
-            sb.append(" WHERE ");
-            sb.append(wherePart);
-        }
-            
-            
-        
-        //TODO переделать доп запросы нахрен
-        
-//        if (!set.isEmpty())
-//            sb.append(" WHERE ");
-//        for (int i = 0; i < cellsModel.length; ++i) {
-//            if (set.contains(cellsModel[i].tableLink) ) {
-//                sb.append(cellsModel[i].tableLink);
-//                sb.append(".id = ");
-//                sb.append(tableName);
-//                sb.append(".id");
-//                if (i != cellsModel.length - 1)
-//                    sb.append(" and ");
-//            }
-//        }
-//        if (sb.subSequence(sb.length() - 4, sb.length()).equals("and ") )
-//            sb.delete(sb.length() - 4, sb.length());
-        
-        System.out.println(sb.toString());
-        this.query = sb.toString();
+        this.query = query;
         this.cellsModel = cellsModel; 
     }
     
@@ -95,9 +44,6 @@ public class TableDataModel extends AbstractTableModel {
         bindedFrame = tif;
     }
     
-//    public void add(Object[] o) {
-//        data.add(o);
-//    }
     public void add(String key, Object o) {
         getColumn(key).add(o);
     }
@@ -105,12 +51,7 @@ public class TableDataModel extends AbstractTableModel {
     public ArrayList getColumn(String key) {
         return (ArrayList)data.get(key);
     }
-    
-        
-//    public Object[] getRow(int row) {
-//        return data.get(row);
-//    }
-    
+   
     public void clear() {
         for (Object o : data.values()) {
             ((ArrayList)o).clear();
@@ -124,7 +65,6 @@ public class TableDataModel extends AbstractTableModel {
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
-        //return data.get(row)[column];
     }
 
     @Override
@@ -134,7 +74,6 @@ public class TableDataModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        //return data.size();
         return ((ArrayList)data.get(cellsModel[0].columnName)).size();
     }
 
