@@ -17,6 +17,7 @@ import org.firebirdsql.jdbc.FBSQLException;
 public class MainFrame extends JFrame {
     //private TableDataModelFactory tdmFactory;
     private Connection con;
+    private DatabaseConnection dbCon;
     private TableFactory tableFactory;
     private JDesktopPane desktopPane;
     private JMenuBar mainMenu;
@@ -39,21 +40,20 @@ public class MainFrame extends JFrame {
             throw(new Exception("Failed to set LookAndFeel."));
         }
         
-        try { 
-            Class.forName("org.firebirdsql.jdbc.FBDriver");
-            //con = DriverManager.getConnection("jdbc:firebirdsql:localhost/3050:D:/work/dropbox/PManager/db/test.fdb", "SYSDBA", "masterkey");
+ /*       try { 
+            Class.forName("org.firebirdsql.jdbc.FBDriver");           
             con = DriverManager.getConnection("jdbc:firebirdsql:localhost/3050:E:/test.fdb", "SYSDBA", "masterkey");
         } catch(FBSQLException e) {
             throw(new Exception("Failed to connect database"));
         }
+   */     
+        dbCon = new DatabaseConnection("E:/test.fdb");
         
         
         mainMenu = new JMenuBar();
         desktopPane = new JDesktopPane();
         add(desktopPane);
-        //add(new JButton("rololo"));
-        //JInternalFrame ji = new LoginIF();
-        //desktopPane.add(ji);
+        
         tableFactory = new TableFactory(con, desktopPane);
         
         JMenu tables = new JMenu("Таблицы");
