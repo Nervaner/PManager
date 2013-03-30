@@ -7,6 +7,7 @@ package pmanager;
 import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import javax.swing.*;
 import org.firebirdsql.jdbc.FBSQLException;
 
@@ -48,6 +49,7 @@ public class MainFrame extends JFrame {
         }
    */     
         dbCon = new DatabaseConnection("E:/test.fdb");
+        ArrayList lst = dbCon.execQuery("select * from projects");
         
         
         mainMenu = new JMenuBar();
