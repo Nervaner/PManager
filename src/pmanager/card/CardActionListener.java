@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pmanager;
+package pmanager.card;
 
+import pmanager.card.CardDataGrabber;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.rmi.activation.ActivationInstantiator;
 import java.sql.Connection;
 import java.sql.Statement;
 import javax.swing.JPanel;
+import pmanager.TableDataModel;
 
 /**
  *

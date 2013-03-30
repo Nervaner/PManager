@@ -4,6 +4,10 @@
  */
 package pmanager;
 
+import pmanager.card.CardDataGrabber;
+import pmanager.card.CardDatePicker;
+import pmanager.card.CardComboBox;
+import pmanager.card.CardTextField;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -16,6 +20,15 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
 import org.jdesktop.swingx.JXDatePicker;
+import pmanager.TableCellModel;
+import pmanager.TableDataModel;
+import pmanager.TableInternalFrame;
+import pmanager.card.CardComboBox;
+import pmanager.card.CardDataGrabber;
+import pmanager.card.CardDatePicker;
+import pmanager.card.CardFlagComboBox;
+import pmanager.card.CardIF;
+import pmanager.card.CardTextField;
 
 
 /**
