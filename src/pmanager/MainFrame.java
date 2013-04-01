@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
         desktopPane = new JDesktopPane();
         add(desktopPane);
         
-        tableFactory = new TableFactory(con, desktopPane);
+        tableFactory = new TableFactory(dbCon, desktopPane);
         
         JMenu tables = new JMenu("Таблицы");
         

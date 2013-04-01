@@ -5,9 +5,6 @@
 package pmanager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -18,22 +15,13 @@ public class TableDataModel extends AbstractTableModel {
     public String tableName;
     public String tableLabel;
     public String query;
-    public String tableLink;
     public TableCellModel[] cellsModel;
     private TableInternalFrame bindedFrame;
-    private HashMap data;
+    private ArrayList<Object[]> data;
             
     public TableDataModel(String tableName, String tableLabel, TableCellModel[] cellsModel, String query) {
         this.tableName = tableName;
         this.tableLabel = tableLabel;
-        this.tableLink = tableLink;
-        HashSet set = new HashSet();
-        data = new HashMap();
-        for (int i = 0; i < cellsModel.length; ++i) {
-            if (cellsModel[i].tableLink.length() > 3 ) 
-                set.add(cellsModel[i].tableLink);
-            data.put(cellsModel[i].columnName, new ArrayList<>());
-        }
         this.query = query;
         this.cellsModel = cellsModel; 
     }
@@ -44,24 +32,18 @@ public class TableDataModel extends AbstractTableModel {
         bindedFrame = tif;
     }
     
-    public void add(String key, Object o) {
-        getColumn(key).add(o);
+    public void dataSet(ArrayList<Object[]> data) {
+        this.data = data;
     }
     
-    public ArrayList getColumn(String key) {
-        return (ArrayList)data.get(key);
-    }
-   
     public void clear() {
-        for (Object o : data.values()) {
-            ((ArrayList)o).clear();
-        }
+        data.clear();
     }
   
     @Override
     public Object getValueAt(int row, int column) {
         try {
-            return ((ArrayList)data.get(cellsModel[column].columnName)).get(row);
+            return data.get(row)[column];
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
@@ -74,7 +56,7 @@ public class TableDataModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return ((ArrayList)data.get(cellsModel[0].columnName)).size();
+        return data.size();
     }
 
     @Override

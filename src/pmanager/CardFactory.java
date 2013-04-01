@@ -36,12 +36,12 @@ import pmanager.card.CardTextField;
  * @author Nervaner
  */
 public class CardFactory {
-    private Connection con;
+    private DatabaseConnection con;
     
     
     
     
-    public CardFactory(Connection c) {
+    public CardFactory(DatabaseConnection c) {
         con = c;
     }
     
@@ -59,15 +59,12 @@ public class CardFactory {
                 sb.append(" and ");
             sb.append(tdm.cellsModel[i].columnName);
             sb.append("='");
-            //sb.append((String)row[i]);
-            sb.append((String)tdm.getValueAt(index, i));
+            sb.append(tdm.getValueAt(index, i));
             sb.append("'");
         }
+        
         try {
-            String q = sb.toString();
-            Statement s = con.createStatement();
-            s.executeUpdate(q);
-            s.close();
+            con.execUpdate(sb.toString());
         } catch (Exception e) {
             System.out.println("failed to delete row");
         }
@@ -102,9 +99,7 @@ public class CardFactory {
         sb.delete(sb.length() - 2, sb.length());
         sb.append(")");
         try { 
-            Statement s = con.createStatement();
-            s.executeUpdate(sb.toString());
-            s.close();
+            con.execUpdate(sb.toString());
         } catch (Exception e) {
             System.out.println("failed to commit card change");
             System.out.println(sb.toString());
@@ -120,14 +115,8 @@ public class CardFactory {
         Component edit;
         Dimension editDim = new Dimension(130, 25);
         TableCellModel c;
-       // String d = "";
-        //Object[] data = null;
-        //if (index != -1)
-        //    data = tdm.getRow(index);
         for (int i = 0; i < tdm.cellsModel.length; ++i) {
             c = tdm.cellsModel[i];
-           // if (index != -1)
-           //     d = (String)data[i];
             switch (c.cellClass) {
                 case "none":
                     edit = new CardTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i) );//(int)data[i]);

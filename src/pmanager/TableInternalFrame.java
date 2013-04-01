@@ -29,10 +29,10 @@ public class TableInternalFrame extends JInternalFrame implements ActionListener
     private JPanel tableControlPanel;
     private JScrollPane tableScrollPane;
     private JTable table;
-    private TableDataModelFactory tdmFactory;
     private CardFactory cardFactory;
     private CardIF card;
     private TableDataModel tdm;
+    private DatabaseConnection con;
     
     private JButton makeIconedButton(String imgURL){
         JButton btn = new JButton();
@@ -52,12 +52,11 @@ public class TableInternalFrame extends JInternalFrame implements ActionListener
     }
     
     
-    public TableInternalFrame(TableDataModel tdm, TableDataModelFactory tdmFactory, CardFactory cardFactory) {
+    public TableInternalFrame(TableDataModel tdm, DatabaseConnection con, CardFactory cardFactory) {
         super(tdm.tableLabel, true, true, true, true);
-        this.tdmFactory = tdmFactory;
         this.cardFactory = cardFactory;
         this.tdm = tdm;
-        
+        this.con = con;
         deleteButton = makeIconedButton("/icons/delete.png");
         deleteButton.setActionCommand("delete");
         editButton = makeIconedButton("/icons/edit.png");
@@ -69,7 +68,6 @@ public class TableInternalFrame extends JInternalFrame implements ActionListener
         tableControlPanel = new JPanel();
         tableControlPanel.setLayout(new BoxLayout(tableControlPanel, BoxLayout.LINE_AXIS));
         table = new JTable(tdm);
-        //table.getSelectionModel().addListSelectionListener(new TableActionListener());
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getSelectionModel().setSelectionInterval(0, 0);
         tableControlPanel.add(addButton);
@@ -85,9 +83,7 @@ public class TableInternalFrame extends JInternalFrame implements ActionListener
         contentPanel.add(tableControlPanel, BorderLayout.NORTH);
         contentPanel.add(tableScrollPane, BorderLayout.CENTER);
         
-        //setMinimumSize(new Dimension(200,200));
         setContentPane(contentPanel);
-        //setBounds(160, 60, 400, 300);
         setSize(400, 300);
         resizable = true;
         setVisible(true);
@@ -110,8 +106,8 @@ public class TableInternalFrame extends JInternalFrame implements ActionListener
                 cardFactory.grabCardData(card, tdm.tableName);
         }
         
-        if (e.getActionCommand().equals("card accept")) {
-            tdmFactory.feelDataModel(tdm);
+        if (e.getActionCommand().equals("card accept") || e.getActionCommand().equals("delete")) {
+            con.refeelDataModel(tdm);
             tdm.fireTableDataChanged();
             toFront();
             repaint();

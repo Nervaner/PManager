@@ -16,8 +16,7 @@ import java.util.GregorianCalendar;
  * @author Kel
  */
 public class GanttChart {
-    private TableDataModelFactory tdmFactory;
-    private Connection con;
+    private DatabaseConnection con;
    
     
     private Date getFirstDate() {
@@ -155,8 +154,7 @@ public class GanttChart {
 		
     }
     
-    public GanttChart(TableDataModelFactory tdmFactory, Connection con) {
-        this.tdmFactory = tdmFactory;
+    public GanttChart(DatabaseConnection con) {
         this.con = con;
     }
     

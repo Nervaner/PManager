@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JComboBox;
+import pmanager.DatabaseConnection;
 
 /**
  *
@@ -18,14 +19,16 @@ import javax.swing.JComboBox;
  */
 public class CardComboBox extends JComboBox implements CardDataGrabber{
     private String columnName;
-    private HashMap data;
-    //private Connection con;
+    private ArrayList<Object[]> data;
     
-    public CardComboBox(String columnName, Connection con, String query) {
+    public CardComboBox(String columnName, DatabaseConnection con, String query) {
         this.columnName = columnName;
-        //this.con = con;
-        data = new HashMap();
         try {
+            data = con.execQuery("SELECT id, name FROM " + query);
+            for (int i = 0; i < data.size(); ++i) {
+                addItem(data.get(i)[1]);
+            }
+            /*
             Statement s = con.createStatement();
             String q = "SELECT id, name FROM " + query;
             ResultSet rs = s.executeQuery(q);
@@ -34,8 +37,9 @@ public class CardComboBox extends JComboBox implements CardDataGrabber{
                 addItem(rs.getString(2));
             }
             s.close();
-                    
+             */       
         } catch (Exception e) {
+            //TODO поправить эксепшен
             System.out.println("CardComboBox: failed to exec query");
         }
     }
@@ -47,7 +51,7 @@ public class CardComboBox extends JComboBox implements CardDataGrabber{
     
     @Override
     public String getData(){
-        return (String)data.get(getSelectedItem());
+        return (String)data.get(getSelectedIndex())[1];
     }
     
 }

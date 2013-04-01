@@ -16,16 +16,17 @@ import javax.swing.JDesktopPane;
  * @author Nervaner
  */
 public class TableFactory implements ActionListener{
-    private TableDataModelFactory tdmFactory;
+    //private TableDataModelFactory tdmFactory;
+    private DatabaseConnection dbCon;
     private CardFactory cardFactory;
     private JDesktopPane desktopPane;
     private GanttChart gChart;
     private Map m;
     
-    TableFactory(Connection c, JDesktopPane dp) {
-        tdmFactory = new TableDataModelFactory(c);
-        cardFactory = new CardFactory(c);
-        gChart = new GanttChart(tdmFactory, c);
+    TableFactory(DatabaseConnection dc, JDesktopPane dp) {
+        dbCon = dc;
+        cardFactory = new CardFactory(dbCon);
+        gChart = new GanttChart(dbCon);
         desktopPane = dp;
         m = new HashMap();
         
@@ -34,7 +35,7 @@ public class TableFactory implements ActionListener{
             new TableCellModel("passwd", "Пароль", "edit", "string", ""),
             new TableCellModel("adminFlag", "Администратор","f_combo", "int", "t/f")
         };
-        m.put("users", new TableDataModel("users", "Пользователи", cellsModel1, ""));
+        m.put("users", new TableDataModel("users", "Пользователи", cellsModel1, "select * from users"));
         TableCellModel[] cellsModel2 = {
             new TableCellModel("id", "Id", "none", "int", ""),  
             new TableCellModel("name", "Компания", "edit", "string", ""),
@@ -96,14 +97,14 @@ public class TableFactory implements ActionListener{
         String event = e.getActionCommand();
         if (m.containsKey(event)) {
             TableDataModel tdm = (TableDataModel)m.get(event);
-            tdmFactory.feelDataModel(tdm);
-            TableInternalFrame tif = new TableInternalFrame(tdm, tdmFactory, cardFactory);
+            dbCon.refeelDataModel(tdm);
+            TableInternalFrame tif = new TableInternalFrame(tdm, dbCon, cardFactory);
             tdm.bindFrame(tif); 
             desktopPane.add(tif);
             tif.toFront();
         } else if (event.equals("chart")) {
             TableDataModel tdm = (TableDataModel)m.get("tasks");
-            tdmFactory.feelDataModel(tdm);
+            dbCon.refeelDataModel(tdm);
             gChart.make(tdm);
         }
       

@@ -30,11 +30,11 @@ public class DatabaseConnection {
         }  
     }
     
-    public ArrayList execQuery(String query) throws Exception {
+    public ArrayList<Object[]> execQuery(String query) throws Exception {
         ArrayList data = new ArrayList<>();
         Object[] row;
         String dataClassName;
-        try {   
+        //try {   
             Statement s = con.createStatement();
             ResultSet rs = s.executeQuery(query);
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -56,12 +56,28 @@ public class DatabaseConnection {
                 data.add(row);
             }
             s.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("Failed to create TDM");
-        }
+        //} catch(Exception e) {
+        //    e.printStackTrace();
+        //    System.out.println("Failed to create TDM");
+        //}
         
         return data;
+    }
+    
+    public void execUpdate(String q) throws Exception {
+        Statement s = con.createStatement();
+        s.executeUpdate(q);
+        s.close();
+        //TODO тут еще стоит что то сделать с исключениями скорее всего
+    }
+    
+    public void refeelDataModel(TableDataModel tdm) {
+        try {
+            tdm.dataSet(execQuery(tdm.query));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Failed to refeel TDM");
+        }
     }
     
 }
