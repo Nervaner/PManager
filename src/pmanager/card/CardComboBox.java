@@ -28,16 +28,7 @@ public class CardComboBox extends JComboBox implements CardDataGrabber{
             for (int i = 0; i < data.size(); ++i) {
                 addItem(data.get(i)[1]);
             }
-            /*
-            Statement s = con.createStatement();
-            String q = "SELECT id, name FROM " + query;
-            ResultSet rs = s.executeQuery(q);
-            while (rs.next()) {
-                data.put(rs.getString(2), rs.getString(1));
-                addItem(rs.getString(2));
-            }
-            s.close();
-             */       
+            //TODO надо как то выделить ту строку, которая сейчас используется
         } catch (Exception e) {
             //TODO поправить эксепшен
             System.out.println("CardComboBox: failed to exec query");
@@ -51,7 +42,7 @@ public class CardComboBox extends JComboBox implements CardDataGrabber{
     
     @Override
     public String getData(){
-        return (String)data.get(getSelectedIndex())[1];
+        return data.get(getSelectedIndex())[0].toString();
     }
     
 }
