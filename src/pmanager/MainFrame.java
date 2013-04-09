@@ -6,10 +6,8 @@ package pmanager;
 
 import java.awt.BorderLayout;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import javax.swing.*;
-import org.firebirdsql.jdbc.FBSQLException;
 
 /**
  *
@@ -40,17 +38,8 @@ public class MainFrame extends JFrame {
         } catch(Exception e) {
             throw(new Exception("Failed to set LookAndFeel."));
         }
-        
- /*       try { 
-            Class.forName("org.firebirdsql.jdbc.FBDriver");           
-            con = DriverManager.getConnection("jdbc:firebirdsql:localhost/3050:E:/test.fdb", "SYSDBA", "masterkey");
-        } catch(FBSQLException e) {
-            throw(new Exception("Failed to connect database"));
-        }
-   */     
+           
         dbCon = new DatabaseConnection("E:/test.fdb");
-        ArrayList lst = dbCon.execQuery("select * from projects");
-        
         
         mainMenu = new JMenuBar();
         desktopPane = new JDesktopPane();

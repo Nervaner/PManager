@@ -117,9 +117,12 @@ public class CardFactory {
         TableCellModel c;
         for (int i = 0; i < tdm.cellsModel.length; ++i) {
             c = tdm.cellsModel[i];
+            
+            
+            
             switch (c.cellClass) {
                 case "none":
-                    edit = new CardTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i) );//(int)data[i]);
+                    edit = new CardTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i) );
                     edit.setVisible(false);
                     panel.add(edit);
                     continue;
@@ -132,16 +135,17 @@ public class CardFactory {
                 case "date":
                     SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");//("dd.MM.yyyy, hh:mm:ss.SSS");
                     Date date = new Date();//TODO возможно стоит как то занулить все не связанное с самой датой 
-                    if (index != -1)
+                    if (index != -1) {
                         date = (Date)tdm.getValueAt(index, i);//data[i];//date = sf.parse(d);
-                    //System.out.println(sf.format(date));
+                    }
                     edit = new CardDatePicker(c.columnName, date);
                     break;
                 default:
-                    if (c.dataType.equals("int"))
+                    if (c.dataType.equals("int")) {
                         edit = new CardTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i));
-                    else
+                    } else {
                         edit = new CardTextField(c.columnName, index == -1 ? "": (String)tdm.getValueAt(index, i));
+                    }
                     
             }
             
@@ -170,7 +174,6 @@ public class CardFactory {
         CardIF card = new CardIF(tdm.tableName , panel);
         b.setActionCommand("card accept");
         b.addActionListener(table);
-        //b.addActionListener(new CardActionListener(con, tdm, card));
         return card;
     }
 }

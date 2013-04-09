@@ -12,6 +12,7 @@ public class TableCellModel {
     public String columnName;
     public String columnLabel;
     public String cellClass;
+    //public Class cellClass;
     public String dataType;
     public String tableLink;
     

@@ -33,10 +33,11 @@ public class CardTextField extends JTextField implements CardDataGrabber {
     
     @Override
     public String getData(){
-        if (intFlag)
+        if (intFlag) {
             return getText();
-        else
+        } else {
             return "'" + getText() + "'";
+        }
     }
     
 }
