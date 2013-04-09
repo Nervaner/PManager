@@ -2,17 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pmanager.card;
+package pmanager.card.components;
 
 import javax.swing.JTextField;
+import pmanager.card.CardComponentInterface;
 
 /**
  *
  * @author Kel
  */
-public class CardTextField extends JTextField implements CardDataGrabber {
+public class CardTextField extends JTextField implements CardComponentInterface {
     private String columnName;
     private boolean intFlag;
+    
+    public CardTextField() {
+        super();
+    }
 
     public CardTextField(String columnName, String text) {
         super(text);
@@ -38,6 +43,11 @@ public class CardTextField extends JTextField implements CardDataGrabber {
         } else {
             return "'" + getText() + "'";
         }
+    }
+
+    @Override
+    public void init(String columnName, Object[] args) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

@@ -4,7 +4,7 @@
  */
 package pmanager.card;
 
-import pmanager.card.CardDataGrabber;
+import pmanager.card.CardComponentInterface;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,17 +40,17 @@ public class CardActionListener implements ActionListener{
         sb.append(") VALUES (");
         boolean first = true;
         for (Component c: com) {
-            if (c instanceof CardDataGrabber) {
+            if (c instanceof CardComponentInterface) {
                 
-                sb.insert(cnIndex, ((CardDataGrabber)c).getColumnName());
+                sb.insert(cnIndex, ((CardComponentInterface)c).getColumnName());
                 if (first)
                     first = false;
                 else {
                     sb.insert(cnIndex, ", ");
                     cnIndex += 2;
                 }
-                cnIndex += ((CardDataGrabber)c).getColumnName().length();
-                sb.append(((CardDataGrabber)c).getData());
+                cnIndex += ((CardComponentInterface)c).getColumnName().length();
+                sb.append(((CardComponentInterface)c).getData());
                 sb.append(", ");
             }
             

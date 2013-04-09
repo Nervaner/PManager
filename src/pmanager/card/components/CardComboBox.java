@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pmanager.card;
+package pmanager.card.components;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,14 +12,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JComboBox;
 import pmanager.DatabaseConnection;
+import pmanager.card.CardComponentInterface;
 
 /**
  *
  * @author Kel
  */
-public class CardComboBox extends JComboBox implements CardDataGrabber{
+public class CardComboBox extends JComboBox implements CardComponentInterface{
     private String columnName;
     private ArrayList<Object[]> data;
+    
+    public CardComboBox() {
+    
+    }
     
     public CardComboBox(String columnName, DatabaseConnection con, String query) {
         this.columnName = columnName;
@@ -43,6 +48,11 @@ public class CardComboBox extends JComboBox implements CardDataGrabber{
     @Override
     public String getData(){
         return data.get(getSelectedIndex())[0].toString();
+    }
+
+    @Override
+    public void init(String columnName, Object[] args) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.*;
+import pmanager.card.CardComponentInterface;
 
 /**
  *
@@ -38,6 +39,19 @@ public class MainFrame extends JFrame {
         } catch(Exception e) {
             throw(new Exception("Failed to set LookAndFeel."));
         }
+        
+        try {
+            Class cls = Class.forName("pmanager.ExampleClass");
+            Object obj = cls.newInstance();
+            Object obj2 = cls.newInstance();
+            ((ExampleClass)obj).init(1);
+            ((ExampleClass)obj2).init(2);
+            System.out.println(((CardComponentInterface)obj).getData());
+            System.out.println(((CardComponentInterface)obj2).getData());
+        } catch(Exception e) {
+            System.out.println("FAAAAAAAIL");
+        }
+        
            
         dbCon = new DatabaseConnection("E:/test.fdb");
         

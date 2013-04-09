@@ -2,18 +2,23 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pmanager.card;
+package pmanager.card.components;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.jdesktop.swingx.JXDatePicker;
+import pmanager.card.CardComponentInterface;
 
 /**
  *
  * @author Kel
  */
-public class CardDatePicker extends JXDatePicker implements CardDataGrabber {
+public class CardDatePicker extends JXDatePicker implements CardComponentInterface {
     private String columnName;
+    
+    public CardDatePicker() {
+        super(new Date());
+    }
     
     public CardDatePicker(String columnName, Date selected) {
         super(selected);
@@ -29,5 +34,11 @@ public class CardDatePicker extends JXDatePicker implements CardDataGrabber {
     public String getData(){
         SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");
         return "'" + sf.format(getDate()) + "'";
+    }
+
+    @Override
+    public void init(String columnName, Object[] args) {
+        this.columnName = columnName;
+        this.setDate((Date)args[0]);
     }
 }

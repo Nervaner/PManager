@@ -2,15 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pmanager.card;
+package pmanager.card.components;
 
 import javax.swing.JEditorPane;
+import pmanager.card.CardComponentInterface;
 
 /**
  *
  * @author Nervaner
  */
-public class CardEditorPane extends JEditorPane implements CardDataGrabber {
+public class CardEditorPane extends JEditorPane implements CardComponentInterface {
     private String columnName;
     private boolean intFlag;
     
@@ -36,5 +37,10 @@ public class CardEditorPane extends JEditorPane implements CardDataGrabber {
     @Override
     public String getData(){
         return "'" + getText() + "'";
+    }
+
+    @Override
+    public void init(String columnName, Object[] args) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -4,10 +4,10 @@
  */
 package pmanager;
 
-import pmanager.card.CardDataGrabber;
-import pmanager.card.CardDatePicker;
-import pmanager.card.CardComboBox;
-import pmanager.card.CardTextField;
+import pmanager.card.CardComponentInterface;
+import pmanager.card.components.CardDatePicker;
+import pmanager.card.components.CardComboBox;
+import pmanager.card.components.CardTextField;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -23,12 +23,12 @@ import org.jdesktop.swingx.JXDatePicker;
 import pmanager.TableCellModel;
 import pmanager.TableDataModel;
 import pmanager.TableInternalFrame;
-import pmanager.card.CardComboBox;
-import pmanager.card.CardDataGrabber;
-import pmanager.card.CardDatePicker;
-import pmanager.card.CardFlagComboBox;
+import pmanager.card.components.CardComboBox;
+import pmanager.card.CardComponentInterface;
+import pmanager.card.components.CardDatePicker;
+import pmanager.card.components.CardFlagComboBox;
 import pmanager.card.CardIF;
-import pmanager.card.CardTextField;
+import pmanager.card.components.CardTextField;
 
 
 /**
@@ -81,17 +81,17 @@ public class CardFactory {
         sb.append(") VALUES (");
         boolean first = true;
         for (Component c: com) {
-            if (c instanceof CardDataGrabber) {
+            if (c instanceof CardComponentInterface) {
                 
-                sb.insert(cnIndex, ((CardDataGrabber)c).getColumnName());
+                sb.insert(cnIndex, ((CardComponentInterface)c).getColumnName());
                 if (first)
                     first = false;
                 else {
                     sb.insert(cnIndex, ", ");
                     cnIndex += 2;
                 }
-                cnIndex += ((CardDataGrabber)c).getColumnName().length();
-                sb.append(((CardDataGrabber)c).getData());
+                cnIndex += ((CardComponentInterface)c).getColumnName().length();
+                sb.append(((CardComponentInterface)c).getData());
                 sb.append(", ");
             }
             
@@ -117,6 +117,14 @@ public class CardFactory {
         TableCellModel c;
         for (int i = 0; i < tdm.cellsModel.length; ++i) {
             c = tdm.cellsModel[i];
+            
+            
+            try {
+                Class cls = Class.forName(c.cellClass);
+                
+            } catch (Exception e) {
+                
+            }
             
             
             
