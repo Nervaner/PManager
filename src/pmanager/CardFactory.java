@@ -121,9 +121,13 @@ public class CardFactory {
             
             try {
                 Class cls = Class.forName(c.cellClass);
+                CardComponentInterface obj = (CardComponentInterface)cls.newInstance();
+                //obj.init(c.columnName, );
                 
+            } catch (ClassNotFoundException e) {
+                System.out.println("[CardFactory] Class '" + c.cellClass + "' not found");
             } catch (Exception e) {
-                
+                System.out.println("[CardFactory] Unexpected error while working with card components");
             }
             
             
@@ -135,7 +139,7 @@ public class CardFactory {
                     panel.add(edit);
                     continue;
                 case "combo":
-                    edit = new CardComboBox(c.columnName, con, c.tableLink);
+                    edit = new CardComboBox(c.columnName, con, c.linkedTable);
                     break;
                 case "f_combo":
                     edit = new CardFlagComboBox(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i));
@@ -144,7 +148,7 @@ public class CardFactory {
                     SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");//("dd.MM.yyyy, hh:mm:ss.SSS");
                     Date date = new Date();//TODO возможно стоит как то занулить все не связанное с самой датой 
                     if (index != -1) {
-                        date = (Date)tdm.getValueAt(index, i);//data[i];//date = sf.parse(d);
+                        date = (Date)tdm.getValueAt(index, i);
                     }
                     edit = new CardDatePicker(c.columnName, date);
                     break;

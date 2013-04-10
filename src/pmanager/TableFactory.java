@@ -33,50 +33,43 @@ public class TableFactory implements ActionListener{
         TableCellModel[] cellsModel1 = {
             new TableCellModel("login", "Логин", "edit", "string", ""),  
             new TableCellModel("passwd", "Пароль", "edit", "string", ""),
-            new TableCellModel("adminFlag", "Администратор","f_combo", "int", "t/f")
+            new TableCellModel("adminFlag", "Администратор","f_combo", "int", "")
         };
-        m.put("users", new TableDataModel("users", "Пользователи", cellsModel1, 
-                "select * from users"));
+        m.put("users", new TableDataModel("users", "Пользователи", cellsModel1));
         TableCellModel[] cellsModel2 = {
             new TableCellModel("id", "Id", "none", "int", ""),  
             new TableCellModel("name", "Компания", "edit", "string", ""),
             new TableCellModel("details", "Описание", "text", "text", "")
         };
-        m.put("companies", new TableDataModel("companies", "Компании", cellsModel2, 
-                "select * from companies"));
+        m.put("companies", new TableDataModel("companies", "Компании", cellsModel2));
         TableCellModel[] cellsModel3 = {
             new TableCellModel("id", "Id", "none", "int", ""),  
             new TableCellModel("name", "Имя", "edit", "string", ""),
             new TableCellModel("companyId", "Компания", "combo", "", "companies"),
             new TableCellModel("login", "Логин", "edit", "string", "")
         };
-        m.put("employees", new TableDataModel("employees", "Разработчики", cellsModel3, 
-                "select e.id, e.name, c.name, e.login from employees e, companies c where e.companyId = c.id"));
+        m.put("employees", new TableDataModel("employees", "Разработчики", cellsModel3));
+                //"select e.id, e.name, c.name, e.login from employees e, companies c where e.companyId = c.id"));
         TableCellModel[] cellsModel4 = {
             new TableCellModel("id", "Id", "none", "int", ""),  
             new TableCellModel("name", "Имя", "edit", "string", ""),
             new TableCellModel("startDate", "Дата начала", "date", "date", ""),
             new TableCellModel("status", "Статус", "edit", "int", "")
         };
-        m.put("projects", new TableDataModel("projects", "Проекты", cellsModel4, 
-                "select * from projects"));
+        m.put("projects", new TableDataModel("projects", "Проекты", cellsModel4));
         TableCellModel[] cellsModel5 = {
             new TableCellModel("id", "Id", "none", "int", ""),
             new TableCellModel("companyId", "Компания", "combo", "int", "companies"),
             new TableCellModel("projectId", "Проект", "combo", "int", "projects"),
             new TableCellModel("activity", "Активность","f_combo", "int", "t/f")
         };
-        m.put("contracts", new TableDataModel("contracts", "Контракты", cellsModel5, 
-                "select cs.id, c.name, p.name, cs.activity from contracts cs, companies c, projects p "
-                + "where cs.companyid = c.id and cs.projectid = p.id"));
+        m.put("contracts", new TableDataModel("contracts", "Контракты", cellsModel5));
         TableCellModel[] cellsModel9 = {
             new TableCellModel("employeeId", "Разработчик", "combo", "int", "employees"),
             new TableCellModel("projectId", "Проект", "combo", "int", "projects"),
             new TableCellModel("role", "Менеджер", "f_combo", "int", "m/e") 
         };
-        m.put("projectEmployees", new TableDataModel("projectEmployees", "Назначенные разработчики", cellsModel9, 
-                "select e.name, p.name, pe.role from employees e, projects p, projectemployees pe "
-                + "where pe.employeeId = e.id and pe.projectId = p.id"));
+        m.put("projectEmployees", new TableDataModel("projectEmployees", "Назначенные разработчики", cellsModel9));
         TableCellModel[] cellsModel6 = {
             new TableCellModel("id", "Id", "none", "int", ""),
             new TableCellModel("name", "Имя", "edit", "string", ""),
@@ -84,9 +77,7 @@ public class TableFactory implements ActionListener{
             new TableCellModel("plannedTime", "Планируемое время", "edit", "int", ""),
             new TableCellModel("status", "Статус", "edit", "int", "")
         };
-        m.put("tasks", new TableDataModel("tasks", "Задачи", cellsModel6, 
-                "select t.id, t.name, p.name, t.plannedTime, t.status from tasks t, projects p "
-                + "where t.projectid = p.id"));
+        m.put("tasks", new TableDataModel("tasks", "Задачи", cellsModel6));
         TableCellModel[] cellsModel7 = {
             new TableCellModel("employeeId", "Разработчик", "combo", "int", "employees"),
             new TableCellModel("taskId", "Задача", "combo", "int", "tasks"),
@@ -94,15 +85,12 @@ public class TableFactory implements ActionListener{
             new TableCellModel("completionDate", "Дата завершения", "date", "date", ""),
             new TableCellModel("destription", "Описание", "edit", "string", "")
         };
-        m.put("jobs", new TableDataModel("jobs", "Проведенные работы", cellsModel7, 
-                "select j.name, t.name, j.startDate, j.completionDate, j.description from jobs j, tasks t "
-                + "where j.tasksid = t.id"));
+        m.put("jobs", new TableDataModel("jobs", "Проведенные работы", cellsModel7));
         TableCellModel[] cellsModel8 = {
             new TableCellModel("firstId", "Зависит", "combo", "int", ""),
             new TableCellModel("secondId", "от", "combo", "int", ""),
         };
-        m.put("tasksDependency", new TableDataModel("tasksDependency", "Зависимость задач", cellsModel8, 
-                "seslect * from tasksDependency"));
+        m.put("tasksDependency", new TableDataModel("tasksDependency", "Зависимость задач", cellsModel8));
     }
     
     @Override

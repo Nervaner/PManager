@@ -19,7 +19,7 @@ public class TableDataModel extends AbstractTableModel {
     private TableInternalFrame bindedFrame;
     private ArrayList<Object[]> data;
             
-    public TableDataModel(String tableName, String tableLabel, TableCellModel[] cellsModel, String query) {
+    public TableDataModel(String tableName, String tableLabel, TableCellModel[] cellsModel) {
         this.tableName = tableName;
         this.tableLabel = tableLabel;
         this.query = query;
@@ -27,12 +27,13 @@ public class TableDataModel extends AbstractTableModel {
     }
     
     public void bindFrame(TableInternalFrame tif) {
-        if (bindedFrame != null)
+        if (bindedFrame != null) {
             bindedFrame.dispose();
+        }
         bindedFrame = tif;
     }
     
-    public void dataSet(ArrayList<Object[]> data) {
+    public void setData(ArrayList<Object[]> data) {
         this.data = data;
     }
     
@@ -43,7 +44,11 @@ public class TableDataModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         try {
-            return data.get(row)[column];
+            if (cellsModel[column].isMasked()) {
+                return cellsModel[column].getMaskedData(row);
+            } else {
+                return data.get(row)[column];
+            }
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
