@@ -22,11 +22,6 @@ public class CardDatePicker extends JXDatePicker implements CardComponentInterfa
         super(new Date());
     }
     
-    public CardDatePicker(String columnName, Date selected) {
-        super(selected);
-        this.columnName = columnName;
-    }
-    
     @Override
     public String getColumnName() {
         return columnName;
@@ -39,7 +34,10 @@ public class CardDatePicker extends JXDatePicker implements CardComponentInterfa
     }
 
     @Override
-    public void init(TableCellModel tcm, DatabaseConnection con, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void init(TableCellModel tcm, DatabaseConnection con, Object value) {
+        this.columnName = tcm.columnName;
+        if (value != null) {
+            this.setDate((Date)value);
+        }
     }
 }

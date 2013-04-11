@@ -14,16 +14,16 @@ public class TableCellModel {
     public String columnName;
     public String columnLabel;
     public String cellClass;
-    public String dataType;
+    //public String dataType;
     public String linkedTable;
     private ArrayList mask;
     
     
-    public TableCellModel(String columnName, String columnLabel, String cellClass, String dataType, String linkedTable) {
+    public TableCellModel(String columnName, String columnLabel, String cellClass, String linkedTable) {
         this.columnName = columnName;
         this.columnLabel = columnLabel;
         this.cellClass = cellClass;
-        this.dataType = dataType;
+        //this.dataType = dataType;
         this.linkedTable = linkedTable;
     }
     

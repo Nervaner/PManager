@@ -6,7 +6,6 @@ package pmanager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JDesktopPane;
@@ -16,7 +15,6 @@ import javax.swing.JDesktopPane;
  * @author Nervaner
  */
 public class TableFactory implements ActionListener{
-    //private TableDataModelFactory tdmFactory;
     private DatabaseConnection dbCon;
     private CardFactory cardFactory;
     private JDesktopPane desktopPane;
@@ -31,64 +29,63 @@ public class TableFactory implements ActionListener{
         m = new HashMap();
         
         TableCellModel[] cellsModel1 = {
-            new TableCellModel("login", "Логин", "edit", "string", ""),  
-            new TableCellModel("passwd", "Пароль", "edit", "string", ""),
-            new TableCellModel("adminFlag", "Администратор","f_combo", "int", "")
+            new TableCellModel("login", "Логин", "CardStringTextField", ""),  
+            new TableCellModel("passwd", "Пароль", "CardStringTextField", ""),
+            new TableCellModel("adminFlag", "Администратор","CardComboBox", "tfmask")
         };
         m.put("users", new TableDataModel("users", "Пользователи", cellsModel1));
         TableCellModel[] cellsModel2 = {
-            new TableCellModel("id", "Id", "none", "int", ""),  
-            new TableCellModel("name", "Компания", "edit", "string", ""),
-            new TableCellModel("details", "Описание", "text", "text", "")
+            new TableCellModel("id", "Id", "CardIdTextField", ""),  
+            new TableCellModel("name", "Компания", "CardStringTextField", ""),
+            new TableCellModel("details", "Описание", "CardStringTextField", "")
         };
         m.put("companies", new TableDataModel("companies", "Компании", cellsModel2));
         TableCellModel[] cellsModel3 = {
-            new TableCellModel("id", "Id", "none", "int", ""),  
-            new TableCellModel("name", "Имя", "edit", "string", ""),
-            new TableCellModel("companyId", "Компания", "combo", "", "companies"),
-            new TableCellModel("login", "Логин", "edit", "string", "")
+            new TableCellModel("id", "Id", "CardIdTextField", ""),  
+            new TableCellModel("name", "Имя", "CardStringTextField", ""),
+            new TableCellModel("companyId", "Компания", "CardComboBox", "companies"),
+            new TableCellModel("login", "Логин", "CardComboBox", "SELECT login, login FROM users")
         };
         m.put("employees", new TableDataModel("employees", "Разработчики", cellsModel3));
-                //"select e.id, e.name, c.name, e.login from employees e, companies c where e.companyId = c.id"));
         TableCellModel[] cellsModel4 = {
-            new TableCellModel("id", "Id", "none", "int", ""),  
-            new TableCellModel("name", "Имя", "edit", "string", ""),
-            new TableCellModel("startDate", "Дата начала", "date", "date", ""),
-            new TableCellModel("status", "Статус", "edit", "int", "")
+            new TableCellModel("id", "Id", "CardIdTextField", ""),  
+            new TableCellModel("name", "Имя", "CardStringTextField", ""),
+            new TableCellModel("startDate", "Дата начала", "CardDatePicker", ""),
+            new TableCellModel("status", "Статус", "CardComboBox", "tfmask")
         };
         m.put("projects", new TableDataModel("projects", "Проекты", cellsModel4));
         TableCellModel[] cellsModel5 = {
-            new TableCellModel("id", "Id", "none", "int", ""),
-            new TableCellModel("companyId", "Компания", "combo", "int", "companies"),
-            new TableCellModel("projectId", "Проект", "combo", "int", "projects"),
-            new TableCellModel("activity", "Активность","f_combo", "int", "t/f")
+            new TableCellModel("id", "Id", "CardIdTextField", ""),
+            new TableCellModel("companyId", "Компания", "CardComboBox", "companies"),
+            new TableCellModel("projectId", "Проект", "CardComboBox", "projects"),
+            new TableCellModel("activity", "Активность","CardComboBox", "tfmask")
         };
         m.put("contracts", new TableDataModel("contracts", "Контракты", cellsModel5));
         TableCellModel[] cellsModel9 = {
-            new TableCellModel("employeeId", "Разработчик", "combo", "int", "employees"),
-            new TableCellModel("projectId", "Проект", "combo", "int", "projects"),
-            new TableCellModel("role", "Менеджер", "f_combo", "int", "m/e") 
+            new TableCellModel("employeeId", "Разработчик", "CardComboBox", "employees"),
+            new TableCellModel("projectId", "Проект", "CardComboBox", "projects"),
+            new TableCellModel("role", "Менеджер", "CardComboBox", "tfmask") 
         };
         m.put("projectEmployees", new TableDataModel("projectEmployees", "Назначенные разработчики", cellsModel9));
         TableCellModel[] cellsModel6 = {
-            new TableCellModel("id", "Id", "none", "int", ""),
-            new TableCellModel("name", "Имя", "edit", "string", ""),
-            new TableCellModel("projectId", "Проект", "combo", "", "projects"), 
-            new TableCellModel("plannedTime", "Планируемое время", "edit", "int", ""),
-            new TableCellModel("status", "Статус", "edit", "int", "")
+            new TableCellModel("id", "Id", "CardIdTextField", ""),
+            new TableCellModel("name", "Имя", "CardStringTextField", ""),
+            new TableCellModel("projectId", "Проект", "CardComboBox", "projects"), 
+            new TableCellModel("plannedTime", "Планируемое время", "CardIntTextField", ""), 
+            new TableCellModel("status", "Статус", "CardComboBox", "tfmask")
         };
         m.put("tasks", new TableDataModel("tasks", "Задачи", cellsModel6));
         TableCellModel[] cellsModel7 = {
-            new TableCellModel("employeeId", "Разработчик", "combo", "int", "employees"),
-            new TableCellModel("taskId", "Задача", "combo", "int", "tasks"),
-            new TableCellModel("startDate", "Дата начала", "date", "date", ""),
-            new TableCellModel("completionDate", "Дата завершения", "date", "date", ""),
-            new TableCellModel("destription", "Описание", "edit", "string", "")
+            new TableCellModel("employeeId", "Разработчик", "CardComboBox", "employees"),
+            new TableCellModel("taskId", "Задача", "CardComboBox", "tasks"),
+            new TableCellModel("startDate", "Дата начала", "CardDatePicker", ""),
+            new TableCellModel("completionDate", "Дата завершения", "CardDatePicker", ""),
+            new TableCellModel("destription", "Описание", "CardStringTextField", "")
         };
         m.put("jobs", new TableDataModel("jobs", "Проведенные работы", cellsModel7));
         TableCellModel[] cellsModel8 = {
-            new TableCellModel("firstId", "Зависит", "combo", "int", ""),
-            new TableCellModel("secondId", "от", "combo", "int", ""),
+            new TableCellModel("firstId", "Зависит", "CardComboBox", "tasks"),
+            new TableCellModel("secondId", "от", "CardComboBox", "tasks"),
         };
         m.put("tasksDependency", new TableDataModel("tasksDependency", "Зависимость задач", cellsModel8));
     }

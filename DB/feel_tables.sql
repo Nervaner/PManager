@@ -13,3 +13,6 @@ INSERT INTO projects(name, startdate, status) VALUES ('project 1', '15.01.2013',
 INSERT INTO tasks(name, projectId, plannedtime, status) VALUES ('task1', 1, 20, 0);
 INSERT INTO tasks(name, projectId, plannedtime, status) VALUES ('task2', 1, 20, 0);
 INSERT INTO tasks(name, projectId, plannedtime, status) VALUES ('task3', 1, 20, 0);
+
+INSERT INTO tfmask(id, name) VALUES (0, 'false');
+INSERT INTO tfmask(id, name) VALUES (1, 'true');

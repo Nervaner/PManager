@@ -4,6 +4,7 @@
  */
 package pmanager.card.components;
 
+import java.awt.Color;
 import javax.swing.JTextField;
 import pmanager.DatabaseConnection;
 import pmanager.TableCellModel;
@@ -13,13 +14,15 @@ import pmanager.card.CardComponentInterface;
  *
  * @author Kel
  */
-public class CardStringTextField extends JTextField implements CardComponentInterface {
+public class CardIdTextField extends JTextField implements CardComponentInterface {
     private String columnName;
     
-    public CardStringTextField() {
-        super();
+    public CardIdTextField() {
+        super("0");
+        this.setEditable(false);
+        this.setBackground(Color.lightGray);
     }
-    
+
     @Override
     public String getColumnName() {
         return columnName;
@@ -27,15 +30,15 @@ public class CardStringTextField extends JTextField implements CardComponentInte
     
     @Override
     public String getData(){
-        return "'" + getText() + "'";
+        return getText();
     }
 
     @Override
     public void init(TableCellModel tcm, DatabaseConnection con, Object value) {
         this.columnName = tcm.columnName;
         if (value != null) {
-            this.setText((String)value);
+            this.setText(value.toString());
         }
     }
-    
+
 }

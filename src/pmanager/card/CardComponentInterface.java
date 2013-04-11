@@ -17,6 +17,6 @@ public interface CardComponentInterface {
     
     public String getData();
     
-    public void init(TableCellModel tcm, DatabaseConnection con, int index);
+    public void init(TableCellModel tcm, DatabaseConnection con, Object value);
     
 }

@@ -20,7 +20,8 @@ CREATE TABLE employees(
 	companyId INTEGER NOT NULL, 
 	login VARCHAR(20) NOT NULL,
 	CONSTRAINT pk_employees PRIMARY KEY (id),
-	CONSTRAINT fk_employess_companies FOREIGN KEY(companyId) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE 
+	CONSTRAINT fk_employees_companies FOREIGN KEY(companyId) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_employees_users FOREIGN KEY(login) REFERENCES users(login) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE projects(
@@ -79,6 +80,11 @@ CREATE TABLE tasksDependency(
 	CONSTRAINT fk_td2_tasks FOREIGN KEY(masterId) REFERENCES tasks(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE tfmask(
+	id INTEGER NOT NULL,
+	name VARCHAR(20) NOT NULL,	
+	CONSTRAINT pk_tfmask PRIMARY KEY(id)
+);
 
 CREATE EXCEPTION ERROR_CYCLE_DEPENDENCY 'task become cycle dependent';
 CREATE EXCEPTION ERROR_NO_CONTRACT 'There is no contract on this project';

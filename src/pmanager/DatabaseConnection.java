@@ -60,6 +60,15 @@ public class DatabaseConnection {
         return data;
     }
     
+    public ArrayList<Object[]> getDataFromLink(String link) throws Exception {
+        if (link.length() > 6 && link.substring(0, 6).equals("SELECT")){
+            return execQuery(link);
+        } else {
+            return execQuery("select id, name from " + link);
+        }
+        
+    }
+    
     public void execUpdate(String q) throws Exception {
         Statement s = con.createStatement();
         s.executeUpdate(q);
@@ -77,7 +86,7 @@ public class DatabaseConnection {
             tdm.setData(data);
             for (int i = 0; i < tdm.cellsModel.length; ++i) {
                 if (tdm.cellsModel[i].isMasked()) {
-                    arr = execQuery("select id, name from " + tdm.cellsModel[i].linkedTable);
+                    arr = getDataFromLink(tdm.cellsModel[i].linkedTable);
                     mask = new ArrayList(data.size());
                     for (int j = 0; j < data.size(); ++j) {
                         mask.add(null);
@@ -86,7 +95,7 @@ public class DatabaseConnection {
                     for (int j = 0; j < arr.size(); ++j) {
                         buff = arr.get(j);
                         for (int k = 0; k < data.size(); ++k) {
-                            if ((int)buff[0] == (int)data.get(k)[i]) {
+                            if (buff[0].equals(data.get(k)[i])) {
                                 mask.set(k, buff[1]);
                             }
                         }

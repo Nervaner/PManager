@@ -4,31 +4,11 @@
  */
 package pmanager;
 
-import pmanager.card.CardComponentInterface;
-import pmanager.card.components.CardDatePicker;
-import pmanager.card.components.CardComboBox;
-import pmanager.card.components.CardStringTextField;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.util.Date;
-import java.sql.Statement;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import javax.swing.*;
-import org.jdesktop.swingx.JXDatePicker;
-import pmanager.TableCellModel;
-import pmanager.TableDataModel;
-import pmanager.TableInternalFrame;
-import pmanager.card.components.CardComboBox;
 import pmanager.card.CardComponentInterface;
-import pmanager.card.components.CardDatePicker;
-import pmanager.card.components.CardFlagComboBox;
 import pmanager.card.CardIF;
-import pmanager.card.components.CardStringTextField;
 
 
 /**
@@ -46,8 +26,9 @@ public class CardFactory {
     }
     
     public void deleteRow(TableDataModel tdm, int index){
-        if (index == -1) 
+        if (index == -1) { 
             return;
+        }
         //TODO а это вообще работало?
         //Object[] row = tdm.getRow(index);
         StringBuilder sb = new StringBuilder();
@@ -55,8 +36,9 @@ public class CardFactory {
         sb.append(tdm.tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < tdm.cellsModel.length; ++i) {
-            if (i != 0)
+            if (i != 0) {
                 sb.append(" and ");
+            }
             sb.append(tdm.cellsModel[i].columnName);
             sb.append("='");
             sb.append(tdm.getValueAt(index, i));
@@ -84,9 +66,9 @@ public class CardFactory {
             if (c instanceof CardComponentInterface) {
                 
                 sb.insert(cnIndex, ((CardComponentInterface)c).getColumnName());
-                if (first)
+                if (first) {
                     first = false;
-                else {
+                } else {
                     sb.insert(cnIndex, ", ");
                     cnIndex += 2;
                 }
@@ -120,10 +102,23 @@ public class CardFactory {
             
             
             try {
-                Class cls = Class.forName(c.cellClass);
+                Class cls = Class.forName("pmanager.card.components." + c.cellClass);
                 CardComponentInterface obj = (CardComponentInterface)cls.newInstance();
-                //obj.init(c.columnName, );
+                obj.init(c, con, tdm.getTrueValueAt(index, i));
+                edit = (Component)obj;
                 
+                Component label = new JLabel(c.columnLabel + ":");
+ 
+                edit.setMaximumSize(editDim);
+                edit.setPreferredSize(editDim);
+
+                panel.add(label);
+                panel.add(edit);
+                sl.putConstraint(SpringLayout.WEST, edit, 120, SpringLayout.WEST, panel);
+                sl.putConstraint(SpringLayout.NORTH, edit, 30, SpringLayout.NORTH, comp);
+                sl.putConstraint(SpringLayout.EAST, label, -10, SpringLayout.WEST, edit);
+                sl.putConstraint(SpringLayout.NORTH, label, 3, SpringLayout.NORTH, edit);
+                comp = edit;
             } catch (ClassNotFoundException e) {
                 System.out.println("[CardFactory] Class '" + c.cellClass + "' not found");
             } catch (Exception e) {
@@ -131,7 +126,7 @@ public class CardFactory {
             }
             
             
-            
+            /*
             switch (c.cellClass) {
                 case "none":
                     edit = new CardStringTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i) );
@@ -161,19 +156,8 @@ public class CardFactory {
                     
             }
             
-     
-            Component label = new JLabel(c.columnLabel + ":");
- 
-            edit.setMaximumSize(editDim);
-            edit.setPreferredSize(editDim);
+            */ 
             
-            panel.add(label);
-            panel.add(edit);
-            sl.putConstraint(SpringLayout.WEST, edit, 120, SpringLayout.WEST, panel);
-            sl.putConstraint(SpringLayout.NORTH, edit, 30, SpringLayout.NORTH, comp);
-            sl.putConstraint(SpringLayout.EAST, label, -10, SpringLayout.WEST, edit);
-            sl.putConstraint(SpringLayout.NORTH, label, 3, SpringLayout.NORTH, edit);
-            comp = edit;
         }
         JButton b = new JButton("ok");
         

@@ -24,22 +24,7 @@ public class CardComboBox extends JComboBox implements CardComponentInterface{
     private ArrayList<Object[]> data;
     
     public CardComboBox() {
-    
-    }
-    
-    public CardComboBox(String columnName, DatabaseConnection con, String query) {
-        this.columnName = columnName;
-        try {
-            data = con.execQuery("SELECT id, name FROM " + query);
-            for (int i = 0; i < data.size(); ++i) {
-                addItem(data.get(i)[1]);
-            }
-            //TODO надо как то выделить ту строку, которая сейчас используется
-        } catch (Exception e) {
-            //TODO поправить эксепшен
-            System.out.println("CardComboBox: failed to exec query");
-        }
-    }
+    }   
     
     @Override
     public String getColumnName() {
@@ -48,12 +33,33 @@ public class CardComboBox extends JComboBox implements CardComponentInterface{
     
     @Override
     public String getData(){
-        return data.get(getSelectedIndex())[0].toString();
+        Object obj = data.get(getSelectedIndex())[0];
+        if (obj.getClass().getName().equals("java.lang.Integer")) {
+            return obj.toString();
+        } else {
+            return "'" + obj.toString() + "'";
+        }
     }
 
     @Override
-    public void init(TableCellModel tcm, DatabaseConnection con, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void init(TableCellModel tcm, DatabaseConnection con, Object value) {
+        this.columnName = tcm.columnName;
+        try {
+            data = con.getDataFromLink(tcm.linkedTable);
+            for (int i = 0; i < data.size(); ++i) {
+                addItem(data.get(i)[1]);
+            }
+            if (value != null) {
+                for (int i = 0; i < data.size(); ++i) {
+                    if (data.get(i)[0].equals(value)) {
+                        this.setSelectedIndex(i);    
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("[CardComboBox] failed to exec query");
+        }
     }
 
     

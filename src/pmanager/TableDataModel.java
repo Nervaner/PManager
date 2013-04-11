@@ -40,6 +40,14 @@ public class TableDataModel extends AbstractTableModel {
     public void clear() {
         data.clear();
     }
+    
+    public Object getTrueValueAt(int row, int column) {
+        try {
+            return data.get(row)[column];
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
   
     @Override
     public Object getValueAt(int row, int column) {

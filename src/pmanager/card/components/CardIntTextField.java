@@ -4,6 +4,7 @@
  */
 package pmanager.card.components;
 
+import java.awt.Color;
 import javax.swing.JTextField;
 import pmanager.DatabaseConnection;
 import pmanager.TableCellModel;
@@ -17,7 +18,7 @@ public class CardIntTextField extends JTextField implements CardComponentInterfa
     private String columnName;
     
     public CardIntTextField() {
-        super();
+        super("0");
     }
 
     @Override
@@ -31,8 +32,11 @@ public class CardIntTextField extends JTextField implements CardComponentInterfa
     }
 
     @Override
-    public void init(TableCellModel tcm, DatabaseConnection con, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void init(TableCellModel tcm, DatabaseConnection con, Object value) {
+        this.columnName = tcm.columnName;
+        if (value != null) {
+            this.setText(value.toString());
+        }
     }
 
 }
