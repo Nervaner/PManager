@@ -7,6 +7,8 @@ package pmanager.card.components;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.jdesktop.swingx.JXDatePicker;
+import pmanager.DatabaseConnection;
+import pmanager.TableCellModel;
 import pmanager.card.CardComponentInterface;
 
 /**
@@ -37,8 +39,7 @@ public class CardDatePicker extends JXDatePicker implements CardComponentInterfa
     }
 
     @Override
-    public void init(String columnName, Object[] args) {
-        this.columnName = columnName;
-        this.setDate((Date)args[0]);
+    public void init(TableCellModel tcm, DatabaseConnection con, int index) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

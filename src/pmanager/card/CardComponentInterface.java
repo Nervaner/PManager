@@ -4,6 +4,9 @@
  */
 package pmanager.card;
 
+import pmanager.DatabaseConnection;
+import pmanager.TableCellModel;
+
 /**
  *
  * @author Nervaner
@@ -14,6 +17,6 @@ public interface CardComponentInterface {
     
     public String getData();
     
-    public void init(String columnName, Object[] args);
+    public void init(TableCellModel tcm, DatabaseConnection con, int index);
     
 }

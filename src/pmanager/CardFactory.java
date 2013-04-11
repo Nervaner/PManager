@@ -7,7 +7,7 @@ package pmanager;
 import pmanager.card.CardComponentInterface;
 import pmanager.card.components.CardDatePicker;
 import pmanager.card.components.CardComboBox;
-import pmanager.card.components.CardTextField;
+import pmanager.card.components.CardStringTextField;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -28,7 +28,7 @@ import pmanager.card.CardComponentInterface;
 import pmanager.card.components.CardDatePicker;
 import pmanager.card.components.CardFlagComboBox;
 import pmanager.card.CardIF;
-import pmanager.card.components.CardTextField;
+import pmanager.card.components.CardStringTextField;
 
 
 /**
@@ -134,7 +134,7 @@ public class CardFactory {
             
             switch (c.cellClass) {
                 case "none":
-                    edit = new CardTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i) );
+                    edit = new CardStringTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i) );
                     edit.setVisible(false);
                     panel.add(edit);
                     continue;
@@ -154,9 +154,9 @@ public class CardFactory {
                     break;
                 default:
                     if (c.dataType.equals("int")) {
-                        edit = new CardTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i));
+                        edit = new CardStringTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i));
                     } else {
-                        edit = new CardTextField(c.columnName, index == -1 ? "": (String)tdm.getValueAt(index, i));
+                        edit = new CardStringTextField(c.columnName, index == -1 ? "": (String)tdm.getValueAt(index, i));
                     }
                     
             }

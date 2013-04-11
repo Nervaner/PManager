@@ -4,33 +4,22 @@
  */
 package pmanager.card.components;
 
-import javax.swing.JEditorPane;
+import javax.swing.JTextField;
 import pmanager.DatabaseConnection;
 import pmanager.TableCellModel;
 import pmanager.card.CardComponentInterface;
 
 /**
  *
- * @author Nervaner
+ * @author Kel
  */
-public class CardEditorPane extends JEditorPane implements CardComponentInterface {
+public class CardIntTextField extends JTextField implements CardComponentInterface {
     private String columnName;
-    private boolean intFlag;
     
-    public CardEditorPane(String columnName) {
-        this.columnName = columnName;
+    public CardIntTextField() {
+        super();
     }
 
-    public CardEditorPane(String columnName, String text) {
-        super("", text);
-        this.columnName = columnName;
-    }
-    
-    public CardEditorPane(String columnName, int value) {
-        super("", Integer.toString(value));
-        this.columnName = columnName;
-    }
-    
     @Override
     public String getColumnName() {
         return columnName;
@@ -38,7 +27,7 @@ public class CardEditorPane extends JEditorPane implements CardComponentInterfac
     
     @Override
     public String getData(){
-        return "'" + getText() + "'";
+        return getText();
     }
 
     @Override

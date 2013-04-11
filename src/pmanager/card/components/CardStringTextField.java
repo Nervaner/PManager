@@ -5,29 +5,23 @@
 package pmanager.card.components;
 
 import javax.swing.JTextField;
+import pmanager.DatabaseConnection;
+import pmanager.TableCellModel;
 import pmanager.card.CardComponentInterface;
 
 /**
  *
  * @author Kel
  */
-public class CardTextField extends JTextField implements CardComponentInterface {
+public class CardStringTextField extends JTextField implements CardComponentInterface {
     private String columnName;
-    private boolean intFlag;
     
-    public CardTextField() {
+    public CardStringTextField() {
         super();
     }
 
-    public CardTextField(String columnName, String text) {
+    public CardStringTextField(String columnName, String text) {
         super(text);
-        intFlag = false;
-        this.columnName = columnName;
-    }
-    
-    public CardTextField(String columnName, int value) {
-        super(Integer.toString(value));
-        intFlag = true;
         this.columnName = columnName;
     }
     
@@ -38,15 +32,11 @@ public class CardTextField extends JTextField implements CardComponentInterface 
     
     @Override
     public String getData(){
-        if (intFlag) {
-            return getText();
-        } else {
-            return "'" + getText() + "'";
-        }
+        return "'" + getText() + "'";
     }
 
     @Override
-    public void init(String columnName, Object[] args) {
+    public void init(TableCellModel tcm, DatabaseConnection con, int index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

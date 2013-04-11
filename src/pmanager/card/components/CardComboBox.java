@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JComboBox;
 import pmanager.DatabaseConnection;
+import pmanager.TableCellModel;
 import pmanager.card.CardComponentInterface;
 
 /**
@@ -51,8 +52,10 @@ public class CardComboBox extends JComboBox implements CardComponentInterface{
     }
 
     @Override
-    public void init(String columnName, Object[] args) {
+    public void init(TableCellModel tcm, DatabaseConnection con, int index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    
     
 }
