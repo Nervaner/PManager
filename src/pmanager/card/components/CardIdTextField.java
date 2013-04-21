@@ -5,6 +5,7 @@
 package pmanager.card.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JTextField;
 import pmanager.DatabaseConnection;
 import pmanager.TableCellModel;
@@ -34,8 +35,9 @@ public class CardIdTextField extends JTextField implements CardComponentInterfac
     }
 
     @Override
-    public void init(TableCellModel tcm, DatabaseConnection con, Object value) {
+    public void init(Dimension dim, TableCellModel tcm, DatabaseConnection con, Object value) {
         this.columnName = tcm.columnName;
+        this.setPreferredSize(dim);
         if (value != null) {
             this.setText(value.toString());
         }

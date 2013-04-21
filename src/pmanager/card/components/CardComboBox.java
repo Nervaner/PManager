@@ -4,6 +4,7 @@
  */
 package pmanager.card.components;
 
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -42,8 +43,9 @@ public class CardComboBox extends JComboBox implements CardComponentInterface{
     }
 
     @Override
-    public void init(TableCellModel tcm, DatabaseConnection con, Object value) {
+    public void init(Dimension dim, TableCellModel tcm, DatabaseConnection con, Object value) {
         this.columnName = tcm.columnName;
+        this.setPreferredSize(dim);
         try {
             data = con.getDataFromLink(tcm.linkedTable);
             for (int i = 0; i < data.size(); ++i) {

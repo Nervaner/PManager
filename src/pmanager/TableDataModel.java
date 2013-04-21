@@ -4,7 +4,9 @@
  */
 package pmanager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -51,15 +53,22 @@ public class TableDataModel extends AbstractTableModel {
   
     @Override
     public Object getValueAt(int row, int column) {
+        Object o;
         try {
             if (cellsModel[column].isMasked()) {
-                return cellsModel[column].getMaskedData(row);
+               o = cellsModel[column].getMaskedData(row);
             } else {
-                return data.get(row)[column];
+                o = data.get(row)[column];
+                if (o instanceof Date) {
+                    SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                    o = sf.format((Date)o);
+                }
             }
+            
         } catch (IndexOutOfBoundsException e) {
-            return null;
+            o = null;
         }
+        return o;
     }
 
     @Override

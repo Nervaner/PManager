@@ -50,7 +50,7 @@ public class TableFactory implements ActionListener{
         TableCellModel[] cellsModel4 = {
             new TableCellModel("id", "Id", "CardIdTextField", ""),  
             new TableCellModel("name", "Имя", "CardStringTextField", ""),
-            new TableCellModel("startDate", "Дата начала", "CardDatePicker", ""),
+            new TableCellModel("startDate", "Дата начала", "CardDateTimeField", ""),
             new TableCellModel("status", "Статус", "CardComboBox", "tfmask")
         };
         m.put("projects", new TableDataModel("projects", "Проекты", cellsModel4));

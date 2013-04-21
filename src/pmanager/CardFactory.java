@@ -93,29 +93,31 @@ public class CardFactory {
         SpringLayout sl = new SpringLayout();
         JPanel panel = new JPanel(sl);
 
-        Component comp = panel;
+        Component comp = new JPanel();
         Component edit;
+        panel.add(comp);
+        
+        sl.putConstraint(SpringLayout.NORTH, comp, -10, SpringLayout.NORTH, panel);
+        
         Dimension editDim = new Dimension(130, 25);
         TableCellModel c;
         for (int i = 0; i < tdm.cellsModel.length; ++i) {
             c = tdm.cellsModel[i];
-            
-            
             try {
                 Class cls = Class.forName("pmanager.card.components." + c.cellClass);
                 CardComponentInterface obj = (CardComponentInterface)cls.newInstance();
-                obj.init(c, con, tdm.getTrueValueAt(index, i));
+                obj.init(editDim, c, con, tdm.getTrueValueAt(index, i));
                 edit = (Component)obj;
                 
                 Component label = new JLabel(c.columnLabel + ":");
  
-                edit.setMaximumSize(editDim);
-                edit.setPreferredSize(editDim);
+                //edit.setMaximumSize(editDim);
+                //edit.setPreferredSize(editDim);
 
                 panel.add(label);
                 panel.add(edit);
                 sl.putConstraint(SpringLayout.WEST, edit, 120, SpringLayout.WEST, panel);
-                sl.putConstraint(SpringLayout.NORTH, edit, 30, SpringLayout.NORTH, comp);
+                sl.putConstraint(SpringLayout.NORTH, edit, 5, SpringLayout.SOUTH, comp);
                 sl.putConstraint(SpringLayout.EAST, label, -10, SpringLayout.WEST, edit);
                 sl.putConstraint(SpringLayout.NORTH, label, 3, SpringLayout.NORTH, edit);
                 comp = edit;
@@ -124,40 +126,6 @@ public class CardFactory {
             } catch (Exception e) {
                 System.out.println("[CardFactory] Unexpected error while working with card components");
             }
-            
-            
-            /*
-            switch (c.cellClass) {
-                case "none":
-                    edit = new CardStringTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i) );
-                    edit.setVisible(false);
-                    panel.add(edit);
-                    continue;
-                case "combo":
-                    edit = new CardComboBox(c.columnName, con, c.linkedTable);
-                    break;
-                case "f_combo":
-                    edit = new CardFlagComboBox(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i));
-                    break;
-                case "date":
-                    SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");//("dd.MM.yyyy, hh:mm:ss.SSS");
-                    Date date = new Date();//TODO возможно стоит как то занулить все не связанное с самой датой 
-                    if (index != -1) {
-                        date = (Date)tdm.getValueAt(index, i);
-                    }
-                    edit = new CardDatePicker(c.columnName, date);
-                    break;
-                default:
-                    if (c.dataType.equals("int")) {
-                        edit = new CardStringTextField(c.columnName, index == -1 ? 0: (int)tdm.getValueAt(index, i));
-                    } else {
-                        edit = new CardStringTextField(c.columnName, index == -1 ? "": (String)tdm.getValueAt(index, i));
-                    }
-                    
-            }
-            
-            */ 
-            
         }
         JButton b = new JButton("ok");
         

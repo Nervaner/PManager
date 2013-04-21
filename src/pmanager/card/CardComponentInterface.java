@@ -4,6 +4,7 @@
  */
 package pmanager.card;
 
+import java.awt.Dimension;
 import pmanager.DatabaseConnection;
 import pmanager.TableCellModel;
 
@@ -17,6 +18,6 @@ public interface CardComponentInterface {
     
     public String getData();
     
-    public void init(TableCellModel tcm, DatabaseConnection con, Object value);
+    public void init(Dimension dim, TableCellModel tcm, DatabaseConnection con, Object value);
     
 }
