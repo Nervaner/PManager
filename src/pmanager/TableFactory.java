@@ -103,7 +103,7 @@ public class TableFactory implements ActionListener{
         } else if (event.equals("chart")) {
             TableDataModel tdm = (TableDataModel)m.get("tasks");
             dbCon.refeelDataModel(tdm);
-            gChart.make(tdm);
+            gChart.make(1);//TODO сделать выбор проекта
         }
       
     }

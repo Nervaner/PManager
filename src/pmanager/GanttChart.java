@@ -7,6 +7,7 @@ package pmanager;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,32 +18,75 @@ import java.util.GregorianCalendar;
  */
 public class GanttChart {
     private DatabaseConnection con;
-   
+    private Date projectStartDate;
+    private ArrayList<Object[]> tasks;
     
-    private Date getFirstDate() {
-        Date date = new Date();
-        
-        return date;
+    
+    
+    private Date getFirstDate(int taskId) {
+        Date date, fDate = projectStartDate;
+        try {
+            ArrayList<Object[]> list;
+            for (Object[] obj: tasks) {
+                list = con.execQuery("select * from jobs where taskid = " + obj[0] + "order by startdate");
+                if (!list.isEmpty()) {
+                    date = (Date)list.get(0)[2];
+                    if (fDate == projectStartDate || date.before(fDate) ) {
+                        fDate = date;
+                    }
+                }                  
+            }
+        } catch (Exception e) {
+            System.out.print("[Gant Chart] failed to get start date");
+        }
+        return fDate;
     }
     
-    private Date getLastDate() {
-        Date date = new Date();
-        
-        return date;
+    private Date getLastDate(int taskId) {
+        Date date, fDate = projectStartDate;
+        try {
+            ArrayList<Object[]> list;
+            for (Object[] obj: tasks) {
+                list = con.execQuery("select * from jobs where taskid = " + obj[0] + "order by enddate desc");
+                if (!list.isEmpty()) {
+                    date = (Date)list.get(0)[2];
+                    if (fDate == null || date.after(fDate) ) {
+                        fDate = date;
+                    }
+                }       
+            }
+        } catch (Exception e) {
+            System.out.print("[Gant Chart] failed to get end date");
+        }
+        return fDate;
     }
     
     private int getHours(Date first, Date last) {
-        
-        return 0;
+        long buf = first.getTime() - last.getTime();
+        return (int)buf / 60000;
     }
     
     
-    public void make(TableDataModel tdm){
+    public void make(int projectId){
         
+        
+        try {
+            tasks = con.execQuery("SELECT * FROM tasks WHERE projectid = " + Integer.toString(projectId));
+            ArrayList<Object[]> buf = con.execQuery("SELECT startdate FROM projects WHERE id = " + Integer.toString(projectId));
+            projectStartDate = (Date)buf.get(1)[0];
+        } catch (Exception e) {
+            System.out.print("[Gant Chart] failed to get project data");
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         Calendar cr = new GregorianCalendar();
-        Date firstDate = getFirstDate();
-        Date lastDate = getLastDate();
+        
+        
+        
+        Date firstDate = getFirstDate(projectId);
+        Date lastDate = getLastDate(projectId);
+        
+        
         int allHours = getHours(firstDate, lastDate);
         
         
@@ -53,10 +97,10 @@ public class GanttChart {
         
         //tasks
         int h = 0;
-        for (int i = 0; i < tdm.getRowCount(); ++i){
+        for (int i = 0; i < tasks.size(); ++i){
             sb.append("<tr>");
             sb.append("<td>");
-            sb.append(tdm.getValueAt(i, 1));
+            sb.append(tasks.get(i)[1]);
             sb.append("</td>");
             h = getHours(firstDate, lastDate);
             
