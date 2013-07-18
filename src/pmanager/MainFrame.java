@@ -5,6 +5,7 @@
 package pmanager;
 
 import java.awt.BorderLayout;
+import java.net.URI;
 import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -39,8 +40,13 @@ public class MainFrame extends JFrame {
         } catch(Exception e) {
             throw(new Exception("Failed to set LookAndFeel."));
         }
-           
-        dbCon = new DatabaseConnection("E:/test.fdb");
+        //TODO проверить работоспособность в упакованном виде
+        String path = getClass().getClassLoader().getResource("").getPath();
+        path += "../../DB/TEST.fdb";
+        URI dbpath = new URI(path);
+        dbpath = dbpath.normalize();
+        System.out.println(dbpath); 
+        dbCon = new DatabaseConnection(dbpath.getPath().substring(1));    
         
         mainMenu = new JMenuBar();
         desktopPane = new JDesktopPane();
