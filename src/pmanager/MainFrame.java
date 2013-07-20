@@ -45,7 +45,6 @@ public class MainFrame extends JFrame {
         path += "../../DB/TEST.fdb";
         URI dbpath = new URI(path);
         dbpath = dbpath.normalize();
-        System.out.println(dbpath); 
         dbCon = new DatabaseConnection(dbpath.getPath().substring(1));    
         
         mainMenu = new JMenuBar();

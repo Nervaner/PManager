@@ -37,7 +37,7 @@ public class GanttChart {
             }                  
             
         } catch (Exception e) {
-            System.out.print("[Gant Chart] failed to get start date");
+            System.out.println("[Gant Chart] failed to get start date");
         }
         return date;
     }
@@ -46,7 +46,7 @@ public class GanttChart {
         Date date = null, fDate;
         try {
             ArrayList<Object[]> list;
-            list = con.execQuery("select * from jobs where taskid = " + taskId + "order by enddate desc");
+            list = con.execQuery("select * from jobs where taskid = " + taskId + " order by completiondate desc");
             if (!list.isEmpty()) {
                 fDate = (Date)list.get(0)[3];
                 if (date == null || fDate.after(date) ) {
@@ -54,7 +54,7 @@ public class GanttChart {
                 }
             }       
         } catch (Exception e) {
-            System.out.print("[Gant Chart] failed to get end date");
+            System.out.println("[Gant Chart] failed to get end date");
         }
         return date;
     }
@@ -75,7 +75,7 @@ public class GanttChart {
                         }
                     }
                 } catch (Exception e) {
-                    System.out.print("[Gant Chart] failed to get dependency data");
+                    System.out.println("[Gant Chart] failed to get dependency data");
                 }
             }
             taskStart.put(taskId, date);
@@ -105,7 +105,7 @@ public class GanttChart {
                         date = bDate;
                     }
                 } catch (Exception e) {
-                    System.out.print("[Gant Chart] failed to get dependency data");
+                    System.out.println("[Gant Chart] failed to get dependency data");
                 }
             }
             taskEnd.put(taskId, date);
@@ -138,9 +138,9 @@ public class GanttChart {
         try {
             tasks = con.execQuery("SELECT * FROM tasks WHERE projectid = " + Integer.toString(projectId));
             ArrayList<Object[]> buf = con.execQuery("SELECT startdate FROM projects WHERE id = " + Integer.toString(projectId));
-            projectStartDate = (Date)buf.get(1)[0];
+            projectStartDate = (Date)buf.get(0)[0];
         } catch (Exception e) {
-            System.out.print("[Gant Chart] failed to get project data");
+            System.out.println("[Gant Chart] failed to get project data");
             return;
         }
         StringBuilder sb = new StringBuilder();
@@ -237,7 +237,7 @@ public class GanttChart {
             fw.write(sb.toString());
             fw.close();
         } catch (Exception e) {
-            System.out.print("Chart blowed up");
+            System.out.println("Chart blowed up");
         }
         
         
