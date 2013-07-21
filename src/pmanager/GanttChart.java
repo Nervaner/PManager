@@ -38,6 +38,7 @@ public class GanttChart {
             
         } catch (Exception e) {
             System.out.println("[Gant Chart] failed to get start date");
+            e.printStackTrace();
         }
         return date;
     }
@@ -55,6 +56,7 @@ public class GanttChart {
             }       
         } catch (Exception e) {
             System.out.println("[Gant Chart] failed to get end date");
+            e.printStackTrace();
         }
         return date;
     }
@@ -76,6 +78,7 @@ public class GanttChart {
                     }
                 } catch (Exception e) {
                     System.out.println("[Gant Chart] failed to get dependency data");
+                    e.printStackTrace();
                 }
             }
             taskStart.put(taskId, date);
@@ -99,13 +102,14 @@ public class GanttChart {
                             date = bDate;
                         }
                     }
-                    list = con.execQuery("select plannedtime from tasks where taskid = " + taskId);
+                    list = con.execQuery("select plannedtime from tasks where id = " + taskId);
                     bDate = countEndDate(projectStartDate, (int)list.get(0)[0]);
                     if (bDate.after(date)) {
                         date = bDate;
                     }
                 } catch (Exception e) {
                     System.out.println("[Gant Chart] failed to get dependency data");
+                    e.printStackTrace();
                 }
             }
             taskEnd.put(taskId, date);
@@ -129,8 +133,8 @@ public class GanttChart {
     }
     
     private int getHours(Date first, Date last) {
-        long buf = first.getTime() - last.getTime();
-        return (int)buf / 60000;
+        long buf1 = last.getTime(), buf2 = first.getTime();
+        return (int)((buf1 - buf2) / 3600000);
     }
     
     
@@ -141,6 +145,7 @@ public class GanttChart {
             projectStartDate = (Date)buf.get(0)[0];
         } catch (Exception e) {
             System.out.println("[Gant Chart] failed to get project data");
+            e.printStackTrace();
             return;
         }
         StringBuilder sb = new StringBuilder();
@@ -165,10 +170,10 @@ public class GanttChart {
         int allHours = getHours(beginDate, endDate);
         
         
-        sb.append("<html><body><table border = \"1\">");
-        sb.append("<th colspan = ");
+        sb.append("<html>\n<body>\n<table border=\"1\">\n");
+        sb.append("<th colspan=\"");
         sb.append(allHours + 1);
-        sb.append(">Gantt diagram</th>");
+        sb.append("\">Gantt diagram</th>\n");
         
         //tasks
         int h = 0;
@@ -182,24 +187,24 @@ public class GanttChart {
             lastDate = getTaskEndDate((int)task[0]);
             h = getHours(beginDate, firstDate);
             if (h > 0) {
-                sb.append("</td colspan = \"");
+                sb.append("<td colspan=\"");
                 sb.append(h);
                 sb.append("\">&nbsp</td>");
             }            
             h = getHours(firstDate, lastDate);
-            sb.append("</td colspan = \"");
+            sb.append("<td colspan=\"");
             sb.append(h);
-            sb.append("\" style = \"background-color: ");
-            sb.append("4"); //цвет таска
+            sb.append("\" style=\"background-color: ");
+            sb.append("red"); //цвет таска
             sb.append("\">&nbsp</td>");
             h = getHours(lastDate, endDate);
             if (h > 0) {
-                sb.append("</td colspan = \"");
+                sb.append("<td colspan=\"");
                 sb.append(h);
                 sb.append("\">&nbsp</td>");
             }
             
-            sb.append("</tr>");
+            sb.append("</tr>\n");
 //            if not task:
 //				continue
 //			result += '<tr>'
@@ -216,7 +221,8 @@ public class GanttChart {
         }
         
         // /tasks
-        sb.append("<tr>");
+        
+ /*       sb.append("<tr>");
         sb.append("<td>Date</td>");
         sb.append("<td colspan = \"");
         cr.setTime(beginDate);
@@ -225,7 +231,7 @@ public class GanttChart {
         sb.append(cr.get(Calendar.DATE));
         sb.append("</td>");        
         //Date newDate = firstDate - 
-        sb.append("</tr>");
+        sb.append("</tr>");*/
         
         
         
@@ -238,6 +244,7 @@ public class GanttChart {
             fw.close();
         } catch (Exception e) {
             System.out.println("Chart blowed up");
+            e.printStackTrace();
         }
         
         
