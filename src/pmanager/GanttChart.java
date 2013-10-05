@@ -4,6 +4,8 @@
  */
 package pmanager;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.sql.Connection;
@@ -154,7 +156,7 @@ public class GanttChart {
         taskStart = new HashMap();
         taskEnd = new HashMap();
         
-        Date beginDate = null, endDate = null, bDate, firstDate, lastDate;
+        Date beginDate = null, endDate = null, bDate, partStartDate, partEndDate;
         
         for (Object[] task: tasks) {
             bDate = getTaskStartDate((int)task[0]);
@@ -179,46 +181,51 @@ public class GanttChart {
         int h = 0;
         //for (int i = 0; i < tasks.size(); ++i){
         for (Object[] task: tasks) {
-            sb.append("<tr>");
+            sb.append("<tr>\n");
             sb.append("<td>");
             sb.append(task[1]);
-            sb.append("</td>");
-            firstDate = getTaskStartDate((int)task[0]);
-            lastDate = getTaskEndDate((int)task[0]);
-            h = getHours(beginDate, firstDate);
+            sb.append("</td>\n");
+            partStartDate = getTaskStartDate((int)task[0]);
+            partEndDate = getTaskEndDate((int)task[0]);
+            h = getHours(beginDate, partStartDate);
             if (h > 0) {
                 sb.append("<td colspan=\"");
                 sb.append(h);
-                sb.append("\">&nbsp</td>");
+                sb.append("\">&nbsp</td>\n");
             }            
-            h = getHours(firstDate, lastDate);
+            h = getHours(partStartDate, partEndDate);
             sb.append("<td colspan=\"");
             sb.append(h);
             sb.append("\" style=\"background-color: ");
             sb.append("red"); //цвет таска
-            sb.append("\">&nbsp</td>");
-            h = getHours(lastDate, endDate);
+            sb.append("\">&nbsp</td>\n");
+            h = getHours(partEndDate, endDate);
             if (h > 0) {
                 sb.append("<td colspan=\"");
                 sb.append(h);
-                sb.append("\">&nbsp</td>");
+                sb.append("\">&nbsp</td>\n");
             }
-            
-            sb.append("</tr>\n");
-//            if not task:
-//				continue
-//			result += '<tr>'
-//			result += '<td>%s</td>' % task.name
-//			h = getHours(firstDate, task.beginDate)
-//			if h:
-//				result += '<td colspan = "%d">&nbsp</td>' % h
-//			result += '<td colspan = "%d" style = "background-color: %s">&nbsp</td>' % (
-//				getHours(task.beginDate, task.endDate), colors[task.state])
-//			h = getHours(task.endDate, lastDate)
-//			if h:
-//				result += '<td colspan = "%d">&nbsp</td>' % h
-//			result += '</tr>'
+            sb.append("</tr>\n");       
         }
+        //time tracking
+        sb.append("<tr>\n");
+        sb.append("<td>Time:</td>\n");
+        for (int i = 0; i < allHours; ++i) {    
+            sb.append("<td>");
+            sb.append(i);
+            sb.append("</td>\n");
+        }
+        sb.append("</tr>\n");
+        
+        //date tracking
+        sb.append("<tr>\n");
+        sb.append("<td>Date:</td>\n");
+        h = allHours;
+        while (h > 0) {
+            sb.append("<td colspan=\"24\">");
+            sb.append(beginDate)
+        }
+        sb.append("</tr>\n"); 
         
         // /tasks
         
@@ -230,18 +237,19 @@ public class GanttChart {
         sb.append("\">");
         sb.append(cr.get(Calendar.DATE));
         sb.append("</td>");        
-        //Date newDate = firstDate - 
+        //Date newDate = partStartDate - 
         sb.append("</tr>");*/
         
         
         
-        sb.append("</table></body></html>");
+        sb.append("</table>\n</body>\n</html>\n");
         
         try {
             //FileOutputStream fo = new FileOutputStream("chart.html");
             FileWriter fw = new FileWriter("chart.html");
             fw.write(sb.toString());
             fw.close();
+            Desktop.getDesktop().open(new File("chart.html"));
         } catch (Exception e) {
             System.out.println("Chart blowed up");
             e.printStackTrace();

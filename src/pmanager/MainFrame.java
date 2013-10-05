@@ -54,6 +54,7 @@ public class MainFrame extends JFrame {
         tableFactory = new TableFactory(dbCon, desktopPane);
         
         JMenu tables = new JMenu("Таблицы");
+        JMenu reports = new JMenu("Отчеты");
         
         JMenuItem miUsers = new JMenuItem("Пользователи");
         JMenuItem miCompanies = new JMenuItem("Компании");
@@ -81,9 +82,10 @@ public class MainFrame extends JFrame {
         tables.add(miEmployees);
         tables.add(miProjects);
         tables.add(miTasks);
-        tables.add(miGanttChart);
+        reports.add(miGanttChart);
         
         mainMenu.add(tables);
+        mainMenu.add(reports);
         setJMenuBar(mainMenu);
         
         
