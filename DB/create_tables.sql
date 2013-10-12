@@ -20,7 +20,7 @@ CREATE TABLE employees(
 	companyId INTEGER NOT NULL, 
 	login VARCHAR(20) NOT NULL,
 	CONSTRAINT pk_employees PRIMARY KEY (id),
-	CONSTRAINT fk_employees_companies FOREIGN KEY(companyId) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_employees_companies FOREIGN KEY(companyId) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT fk_employees_users FOREIGN KEY(login) REFERENCES users(login) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
