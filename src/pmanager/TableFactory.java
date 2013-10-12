@@ -78,14 +78,14 @@ public class TableFactory implements ActionListener{
         TableCellModel[] cellsModel7 = {
             new TableCellModel("employeeId", "Разработчик", "CardComboBox", "employees"),
             new TableCellModel("taskId", "Задача", "CardComboBox", "tasks"),
-            new TableCellModel("startDate", "Дата начала", "CardDatePicker", ""),
-            new TableCellModel("completionDate", "Дата завершения", "CardDatePicker", ""),
-            new TableCellModel("destription", "Описание", "CardStringTextField", "")
+            new TableCellModel("startDate", "Дата начала", "CardDateTimeField", ""),
+            new TableCellModel("completionDate", "Дата завершения", "CardDateTimeField", ""),
+            new TableCellModel("description", "Описание", "CardStringTextField", "")
         };
         m.put("jobs", new TableDataModel("jobs", "Проведенные работы", cellsModel7));
         TableCellModel[] cellsModel8 = {
-            new TableCellModel("firstId", "Зависит", "CardComboBox", "tasks"),
-            new TableCellModel("secondId", "от", "CardComboBox", "tasks"),
+            new TableCellModel("slaveId", "Зависит", "CardComboBox", "tasks"),
+            new TableCellModel("masterId", "от", "CardComboBox", "tasks"),
         };
         m.put("tasksDependency", new TableDataModel("tasksDependency", "Зависимость задач", cellsModel8));
     }

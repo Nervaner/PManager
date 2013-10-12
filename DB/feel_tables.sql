@@ -23,6 +23,8 @@ INSERT INTO tasks(name, projectId, plannedtime, status) VALUES ('task3', 1, 25, 
 INSERT INTO tasks(name, projectId, plannedtime, status) VALUES ('task4', 1, 8, 0);
 INSERT INTO tasks(name, projectId, plannedtime, status) VALUES ('task5', 1, 5, 0);
 
+INSERT INTO jobs (employeeId, taskId, startDate, completionDate, description) VALUES (1, 2, '16.01.2013, 12:41', '16.01.2013, 14:41', 'blabla')
+
 INSERT INTO tasksdependency(slaveId, masterId) VALUES (4, 1);
 INSERT INTO tasksdependency(slaveId, masterId) VALUES (5, 4);
 

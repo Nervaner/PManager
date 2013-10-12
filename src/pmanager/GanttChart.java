@@ -25,17 +25,18 @@ public class GanttChart {
     private Date projectStartDate;
     private ArrayList<Object[]> tasks;
     private Map<Integer, Date> taskStart, taskEnd;
+    private Map<Integer, Integer> tasksColor;
     private TimeTool timeTool;
-    private String taskColors[] =  {
+    private static int TASK_NOT_STARTED = 0;
+    private static int TASK_IN_PROGRESS = 1;
+    private static int TASK_DONE = 2;
+
+    private String taskColorSet[] =  {
         "red",
         "yellow",
         "green"
     };
-    private enum taskColorNumbers {
-        NOT_STARTED,
-        IN_PROGRESS,
-        DONE
-    };
+    
     
     private Date getFirstJobDate(int taskId) {
         Date date = null, fDate;
@@ -93,6 +94,8 @@ public class GanttChart {
                     System.out.println("[Gant Chart] failed to get dependency data");
                     e.printStackTrace();
                 }
+            } else {
+                tasksColor.put(taskId, TASK_IN_PROGRESS);
             }
             taskStart.put(taskId, date);
         }
@@ -146,15 +149,14 @@ public class GanttChart {
             return;
         }
         StringBuilder sb = new StringBuilder();
-        Calendar cr = new GregorianCalendar();
+        //Calendar cr = new GregorianCalendar();
         //TimeTool tt = new TimeTool();
-        
-        taskStart = new HashMap();
-        taskEnd = new HashMap();
+
         
         java.util.Date beginDate = null, endDate = null, bDate, partStartDate, partEndDate;
         
         for (Object[] task: tasks) {
+            tasksColor.put((int)task[0], TASK_NOT_STARTED);
             bDate = getTaskStartDate((int)task[0]);
             if (beginDate == null || bDate.before(beginDate)) {
                 beginDate = bDate;
@@ -162,6 +164,9 @@ public class GanttChart {
             bDate = getTaskEndDate((int)task[0]);
             if (endDate == null || bDate.after(endDate)) {
                 endDate = bDate;
+            }
+            if ((int)task[4] == 1) {
+                tasksColor.put((int)task[0], TASK_DONE);
             }
         }
         
@@ -226,7 +231,7 @@ public class GanttChart {
             sb.append("<td colspan=\"");
             sb.append(h);
             sb.append("\" align=\"center\" style=\"background-color: ");
-            sb.append("red"); //цвет таска
+            sb.append(taskColorSet[tasksColor.get((int)task[0])]);
             sb.append("\">");
             sb.append(h);
             sb.append("</td>\n");
@@ -250,61 +255,15 @@ public class GanttChart {
             System.out.println("Chart blowed up");
             e.printStackTrace();
         }
-        
-        
-        
-//                firstDate = self.getFirstDate()
-//		lastDate = self.getLastDate()
-//		allHours = getHours(firstDate, lastDate)
-//		result = '<html><body><table border = "1">'
-//		result += '<th colspan = %s>Gantt diagram</th>' % (allHours + 1)
-//		for task in self.tasks:
-//			if not task:
-//				continue
-//			result += '<tr>'
-//			result += '<td>%s</td>' % task.name
-//			h = getHours(firstDate, task.beginDate)
-//			if h:
-//				result += '<td colspan = "%d">&nbsp</td>' % h
-//			result += '<td colspan = "%d" style = "background-color: %s">&nbsp</td>' % (
-//				getHours(task.beginDate, task.endDate), colors[task.state])
-//			h = getHours(task.endDate, lastDate)
-//			if h:
-//				result += '<td colspan = "%d">&nbsp</td>' % h
-//			result += '</tr>'
-//			
-//		result += '<tr>'
-//		result += '<td>Date</td>'
-//		result += '<td colspan = "%d" >%s</td>' % (24 - firstDate.hour, firstDate.date())
-//		newDate = firstDate + datetime.timedelta(hours = (24 - firstDate.hour))
-//		h = 0
-//		hours = allHours - (24 - firstDate.hour)
-//		while hours > 0:
-//			newDate +=  datetime.timedelta(hours = 24 * h)
-//			result += '<td colspan = "24">%s</td>' % newDate.date()
-//			h += 1
-//			hours -= 24
-//		result += '</tr>'
-//		
-//		result += '<tr>'
-//		result += '<td>Hour</td>'
-//		for h in range(allHours):
-//			newDate = (firstDate + datetime.timedelta(hours = h))
-//			result += '<td style = "font-size: 8;">%s</td>' % newDate.hour
-//		result += '</tr>'
-//
-//		result += '</table><table><th colspan = 2>Denotation:</th>'
-//		for i, den in enumerate(['Task is not started', 'Task is in progress', 'Task finished']):
-//			result += '<tr><td style = "background-color: %s; width: 25px;">&nbsp;</td><td>%s</td></tr>' % (colors[i], den)
-//		result += '</table></body></html>'
-//		diagram = open('diagram.html', 'w')
-//		diagram.write(result)
-		
+  
     }
     
     public GanttChart(DatabaseConnection con) {
         this.con = con;
         timeTool = new TimeTool();
+        taskStart = new HashMap();
+        taskEnd = new HashMap();
+        tasksColor = new HashMap(); 
     }
     
 }
