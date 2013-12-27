@@ -39,7 +39,7 @@ public class TableJobsReport extends JInternalFrame implements ActionListener{
     private JComboBox feelComboBox(ArrayList<Object[]> arr, String request, String init) {
         JComboBox comboBox = new JComboBox();
         try {
-            arr = con.execQuery(request); 
+            arr.addAll(con.execQuery(request)); 
         } catch (Exception e) {
             
         }
@@ -55,8 +55,10 @@ public class TableJobsReport extends JInternalFrame implements ActionListener{
     public TableJobsReport(DatabaseConnection con) {
         super("Отчет по проведенным работам", true, true, true, false);
         this.con = con;
-        
-        
+        projectArr = new ArrayList<Object[]>();
+        employeeArr = new ArrayList<Object[]>();
+        taskArr = new ArrayList<Object[]>();
+                
         projectSelector = feelComboBox(projectArr, "SELECT id, name from projects", "-проект-");      
         employeeSelector = feelComboBox(employeeArr, "select id, name from employees", "-пользователь-");
         taskSelector = feelComboBox(taskArr, "select id, name from tasks", "-задача-");
@@ -114,13 +116,13 @@ public class TableJobsReport extends JInternalFrame implements ActionListener{
         ArrayList<Object[]> arr;
         String request = "SELECT e.name, t.name, j.startdate, j.completiondate FROM jobs j, tasks t, employees e WHERE j.employeeid = e.id and j.taskid = t.id";
         if (projectSelector.getSelectedIndex() > 0) {
-            request += " and t.projectid = " + projectArr.get(projectSelector.getSelectedIndex())[1];
+            request += " and t.projectid = " + projectArr.get(projectSelector.getSelectedIndex())[0];
         }
         if (employeeSelector.getSelectedIndex() > 0) {
-            request += " and e.employeeid = " + employeeArr.get(employeeSelector.getSelectedIndex())[1]; 
+            request += " and j.employeeid = " + employeeArr.get(employeeSelector.getSelectedIndex())[0]; 
         }
         if (taskSelector.getSelectedIndex() > 0) {
-            request += " and t.id = " + taskArr.get(taskSelector.getSelectedIndex())[1];
+            request += " and t.id = " + taskArr.get(taskSelector.getSelectedIndex())[0];
         }
         try {
             arr = con.execQuery(request);

@@ -4,33 +4,40 @@
  */
 package pmanager;
 
-import javax.swing.JInternalFrame;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 /**
  *
  * @author Nervaner
  */
-public class LoginIF extends JInternalFrame{
-    
-    private javax.swing.JLabel LoginLable;
-    private javax.swing.JPanel LoginPanel;
-    private javax.swing.JLabel LoginStatusLable;
-    private javax.swing.JTextField LoginTextField;
-    private javax.swing.JDesktopPane MainDesktopPane;
-    private javax.swing.JMenuBar MainMenuBar;
-    private javax.swing.JPasswordField PasswordField;
-    private javax.swing.JLabel PasswordLable;
-    private javax.swing.JButton LoginButton;
-    
+public class LoginFrame extends JFrame{
+   
         
-    public LoginIF() {
-        LoginPanel = new javax.swing.JPanel();
-        LoginLable = new javax.swing.JLabel();
-        PasswordLable = new javax.swing.JLabel();
-        LoginTextField = new javax.swing.JTextField();
-        PasswordField = new javax.swing.JPasswordField();
-        LoginStatusLable = new javax.swing.JLabel();
-        LoginButton = new javax.swing.JButton();
+    public LoginFrame() {
+        SpringLayout sl = new SpringLayout();
+        JPanel loginPanel = new JPanel(sl);
+        JLabel loginLable = new JLabel();
+        JLabel passwordLable = new JLabel();
+        JTextField loginTextField = new JTextField();
+        JPasswordField passwordField = new JPasswordField();
+        JLabel loginStatusLable = new JLabel();
+        JButton loginButton = new JButton();
+        
+        loginLable.setText("Логин:");
+        passwordLable.setText("Пароль:");
+        loginTextField.setMinimumSize(new java.awt.Dimension(100, 20));
+        loginButton.setText("Войти");
+        loginButton.setActionCommand("Login");
+        
+        loginPanel.add(loginLable);
+        sl.putConstraint(SpringLayout.WEST, loginLable, 20, SpringLayout.WEST, loginPanel);
+        
         
         //кривосгенеренный код
         setTitle("Авторизация");

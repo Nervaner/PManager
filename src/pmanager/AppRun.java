@@ -19,6 +19,7 @@ public class AppRun {
     
     public static void main(String args[]) {
         try {
+            JFrame login = new LoginFrame();
             JFrame mainFrame = new MainFrame("Main Frame");
             mainFrame.setVisible(true);
         } catch (Exception e) {

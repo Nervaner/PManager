@@ -27,6 +27,7 @@ public class GanttChart {
     private Map<Integer, Date> taskStart, taskEnd;
     private Map<Integer, Integer> tasksColor;
     private TimeTool timeTool;
+    
     private static int TASK_NOT_STARTED = 0;
     private static int TASK_IN_PROGRESS = 1;
     private static int TASK_DONE = 2;
@@ -42,9 +43,9 @@ public class GanttChart {
         Date date = null, fDate;
         try {
             ArrayList<Object[]> list;
-            list = con.execQuery("select * from jobs where taskid = " + taskId + "order by startdate");
+            list = con.execQuery("select startDate from jobs where taskid = " + taskId + "order by startdate");
             if (!list.isEmpty()) {
-                fDate = (Date)list.get(0)[2];
+                fDate = (Date)list.get(0)[0];
                 if (date == null || fDate.before(date) ) {
                     date = fDate;
                 }
@@ -61,9 +62,9 @@ public class GanttChart {
         Date date = null, fDate;
         try {
             ArrayList<Object[]> list;
-            list = con.execQuery("select * from jobs where taskid = " + taskId + " order by completiondate desc");
+            list = con.execQuery("select completionDate from jobs where taskid = " + taskId + " order by completiondate desc");
             if (!list.isEmpty()) {
-                fDate = (Date)list.get(0)[3];
+                fDate = (Date)list.get(0)[0];
                 if (date == null || fDate.after(date) ) {
                     date = fDate;
                 }
@@ -106,28 +107,28 @@ public class GanttChart {
     private Date getTaskEndDate(int taskId) {
         Date date = taskEnd.get(taskId), bDate = null;
         if (date == null) {
-            date = getLastJobDate(taskId);
-            if (date == null) {
-                date = projectStartDate;
-                try {
-                    ArrayList<Object[]> list;
-                    list = con.execQuery("select masterid from tasksdependency where slaveid = " + taskId);
-                    for (Object[] obj: list) {
-                        bDate = getTaskEndDate((int)obj[0]);
-                        if (bDate.after(date)) {
-                            date = bDate;
-                        }
+            date = getTaskStartDate(taskId);
+            try {
+                ArrayList<Object[]> list;
+                list = con.execQuery("select masterid from tasksdependency where slaveid = " + taskId);
+                for (Object[] obj: list) {
+                    bDate = getTaskEndDate((int)obj[0]);
+                    if (date == null || bDate.after(date)) {
+                        date = bDate;
                     }
-                    list = con.execQuery("select plannedtime from tasks where id = " + taskId);
-                    date = countEndDate(date, (int)list.get(0)[0]);
-//                    if (bDate.after(date)) {
-//                        date = bDate;
-//                    }
-                } catch (Exception e) {
-                    System.out.println("[Gant Chart] failed to get dependency data");
-                    e.printStackTrace();
                 }
+                list = con.execQuery("select plannedtime from tasks where id = " + taskId);
+                date = countEndDate(date, (int)list.get(0)[0]);
+
+                bDate = getLastJobDate(taskId);
+                if (bDate != null && bDate.after(date)) {
+                    date = bDate;
+                }
+            } catch (Exception e) {
+                System.out.println("[Gant Chart] failed to get dependency data");
+                e.printStackTrace();
             }
+
             taskEnd.put(taskId, date);
         }
         return date;
@@ -149,9 +150,6 @@ public class GanttChart {
             return;
         }
         StringBuilder sb = new StringBuilder();
-        //Calendar cr = new GregorianCalendar();
-        //TimeTool tt = new TimeTool();
-
         
         java.util.Date beginDate = null, endDate = null, bDate, partStartDate, partEndDate;
         
@@ -182,24 +180,27 @@ public class GanttChart {
         sb.append("\">Gantt diagram</th>\n");
         
         
-        timeTool.set(beginDate);
+        //nope
         //time tracking
+        timeTool.set(beginDate);
         sb.append("<tr>\n");
-        sb.append("<td>Time:</td>\n");
+        sb.append("<td>Hour:</td>\n");
         for (int i = 0; i < allHours; ++i) {    
             sb.append("<td>");
-            sb.append(i);
+            sb.append(timeTool.getHour() + 1);
+            timeTool.addHour(1);
             sb.append("</td>\n");
         }
         sb.append("</tr>\n");
         
         //date tracking
+        timeTool.set(beginDate);
         sb.append("<tr>\n");
-        sb.append("<td>Date:</td>\n");
+        sb.append("<td>Date:</td>\n");       
         h = allHours;
         while (h > TimeTool.HOUR_PER_DAY) {
             sb.append("<td colspan=\"");
-            sb.append(TimeTool.HOUR_PER_DAY);
+            sb.append(TimeTool.HOUR_PER_DAY); 
             sb.append("\">");
             sb.append(timeTool.getYearMonthDay());
             sb.append("</td>\n");
