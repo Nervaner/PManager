@@ -2,4 +2,22 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/MainFrame.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/forms_constructing/MainFrame.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/TimeTool.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/TableJobsReportModel.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/TableFactory.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/DatabaseConnection.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/TableInternalFrame.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/PermissionFactory.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/card/components/CardComboBox.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/CardFactory.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/TableDataModel.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/TableCellModel.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/forms_constructing/testTableProjectReport.java</file>
+            <file>file:/C:/Users/Kelardis/Documents/GitHub/PManager/src/pmanager/TableJobsReport.java</file>
+        </group>
+    </open-files>
 </project-private>

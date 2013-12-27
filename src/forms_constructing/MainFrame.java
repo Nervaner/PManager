@@ -39,7 +39,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setName("MainFrame");
+        setName("MainFrame"); // NOI18N
 
         jInternalFrame1.setVisible(true);
 
@@ -54,8 +54,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGap(0, 201, Short.MAX_VALUE)
         );
 
+        MainDesktopPane.add(jInternalFrame1);
         jInternalFrame1.setBounds(60, 40, 390, 230);
-        MainDesktopPane.add(jInternalFrame1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         MainMenuBar.setForeground(new java.awt.Color(204, 204, 204));
 

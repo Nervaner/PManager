@@ -27,7 +27,8 @@ public class DatabaseConnection {
         } catch(ClassNotFoundException e) {
             throw(new Exception("Firebird driver not found"));
         } catch(FBSQLException e) {
-            throw(new Exception("Failed to connect database"));
+            System.err.println("Failed to connect database");
+            //throw(new Exception("Failed to connect database"));
         }  
     }
     

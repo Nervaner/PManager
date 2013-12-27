@@ -63,6 +63,7 @@ public class MainFrame extends JFrame {
         JMenuItem miTasks = new JMenuItem("Задачи");
         JMenuItem miJobs = new JMenuItem("Проведенные работы");
         JMenuItem miGanttChart = new JMenuItem("Диаграмма");
+        JMenuItem miJobsReport = new JMenuItem("Проведенные работы");
         
         miUsers.setActionCommand("users");
         miCompanies.setActionCommand("companies");
@@ -71,6 +72,7 @@ public class MainFrame extends JFrame {
         miTasks.setActionCommand("tasks");
         miJobs.setActionCommand("jobs");
         miGanttChart.setActionCommand("chart");
+        miJobsReport.setActionCommand("jreport");
         
         miUsers.addActionListener(tableFactory);
         miCompanies.addActionListener(tableFactory);
@@ -79,6 +81,7 @@ public class MainFrame extends JFrame {
         miTasks.addActionListener(tableFactory);
         miJobs.addActionListener(tableFactory);
         miGanttChart.addActionListener(tableFactory);
+        miJobsReport.addActionListener(tableFactory);
         
         tables.add(miUsers);
         tables.add(miCompanies);
@@ -87,6 +90,7 @@ public class MainFrame extends JFrame {
         tables.add(miTasks);
         tables.add(miJobs);
         reports.add(miGanttChart);
+        reports.add(miJobsReport);
         
         mainMenu.add(tables);
         mainMenu.add(reports);

@@ -104,6 +104,10 @@ public class TableFactory implements ActionListener{
             TableDataModel tdm = (TableDataModel)m.get("tasks");
             dbCon.refeelDataModel(tdm);
             gChart.make(1);//TODO сделать выбор проекта
+        } else if (event.equals("jreport")) {
+            TableJobsReport tpr = new TableJobsReport(dbCon);
+            desktopPane.add(tpr);
+            tpr.toFront();
         }
       
     }
