@@ -64,6 +64,7 @@ public class CardActionListener implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         try { 
             Statement s = con.createStatement();
+            System.out.println(grabCardData());
             s.executeUpdate(grabCardData());
             s.close();
             card.dispose();

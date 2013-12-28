@@ -34,7 +34,7 @@ INSERT INTO jobs(employeeId, taskId, startDate, completionDate, description) VAL
 INSERT INTO tasksdependency(slaveId, masterId) VALUES (4, 1);
 INSERT INTO tasksdependency(slaveId, masterId) VALUES (5, 4);
 
-INSERT INTO journal(id, login, entranceDate) VALUES (1, 'Admin', '16.01.2013, 17:00');
+INSERT INTO journal(id, login, passwd, entranceDate) VALUES (1, 'Admin', 'Admin', '16.01.2013, 17:00');
 
 INSERT INTO tfmask(id, name) VALUES (0, 'false');
 INSERT INTO tfmask(id, name) VALUES (1, 'true');

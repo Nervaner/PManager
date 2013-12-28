@@ -41,10 +41,13 @@ public class CardFactory {
             }
             sb.append(tdm.cellsModel[i].columnName);
             sb.append("='");
-            sb.append(tdm.getValueAt(index, i));
+            sb.append(tdm.getTrueValueAt(index, i));
             sb.append("'");
+            if (tdm.cellsModel[i].columnName.equals("id")) {
+                break;
+            }
         }
-        
+        System.out.println(sb.toString());
         try {
             con.execUpdate(sb.toString());
         } catch (Exception e) {
@@ -80,6 +83,7 @@ public class CardFactory {
         }
         sb.delete(sb.length() - 2, sb.length());
         sb.append(")");
+        System.out.println(sb.toString());
         try { 
             con.execUpdate(sb.toString());
         } catch (Exception e) {

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class DatabaseConnection {
         }  
     }
     
-    public ArrayList<Object[]> execQuery(String query) throws Exception {
+    public ArrayList<Object[]> execQuery(String query) throws SQLException {
         ArrayList data = new ArrayList<>();
         Object[] row;
         String dataClassName;
@@ -70,7 +71,7 @@ public class DatabaseConnection {
         
     }
     
-    public void execUpdate(String q) throws Exception {
+    public void execUpdate(String q) throws SQLException {
         Statement s = con.createStatement();
         s.executeUpdate(q);
         s.close();

@@ -83,6 +83,7 @@ CREATE TABLE tasksDependency(
 CREATE TABLE journal(
 	id INTEGER NOT NULL,
 	login VARCHAR(20) NOT NULL,
+	passwd VARCHAR(20) NOT NULL,
 	entranceDate TIMESTAMP NOT NULL,
     CONSTRAINT pk_journal PRIMARY KEY(id),
     CONSTRAINT fk_journal_users FOREIGN KEY (login) REFERENCES users(login) ON DELETE CASCADE ON UPDATE CASCADE
@@ -99,6 +100,7 @@ CREATE EXCEPTION ERROR_CYCLE_DEPENDENCY 'Tasks become cycle dependent';
 CREATE EXCEPTION ERROR_NO_CONTRACT 'There is no contract on this project';
 CREATE EXCEPTION ERROR_EMPLOYEE_BUSY 'Employee is busy in this time lapse';
 CREATE EXCEPTION ERROR_NO_RIGHTS 'You haven`t rights to do this';
+CREATE EXCEPTION ERROR_LOGIN_FAIL 'No such login or password';
 
 
 
@@ -332,7 +334,7 @@ BEGIN
     execute procedure is_worker (new.projectid) returning_values wflag;
     if (aflag = 0 and mflag = 0) then
     begin
-        if (not updating or old.id = new.id or old.name <> new.name or old.projectid <> new.projectid or old.plannedtime <> new.plannedtime or new.status <> 2) then
+        if (not updating or old.id <> new.id or old.name <> new.name or old.projectid <> new.projectid or old.plannedtime <> new.plannedtime or new.status <> 2) then
             exception ERROR_NO_RIGHTS;
     end   
 END^
@@ -350,14 +352,14 @@ AS
  DECLARE VARIABLE login VARCHAR(20);
 BEGIN
     execute procedure is_admin returning_values aflag;
-    select t.projectid from jobs j join tasks t on j.taskid = t.id where t.id = new.taskid into pid;  
+    select t.projectid from tasks t where t.id = new.TASKID into pid; 
     execute procedure is_manager (pid) returning_values mflag;
     execute procedure is_worker (pid) returning_values wflag;
     if (aflag = 0 and mflag = 0) then
     begin
         select j.login from journal j order by j.id desc into login;
         select e.id from employees e where e.login = :login into eid;
-        if (new.id <> eid or (updating and old.id <> eid) ) then 
+        if (new.employeeid <> eid or (updating and old.employeeid <> eid) ) then 
             exception ERROR_NO_RIGHTS;
     end
 END^
@@ -394,10 +396,6 @@ BEGIN
     if (cycled = 1) then exception ERROR_CYCLE_DEPENDENCY;
 END^
 
-SET TERM ; ^
-
-SET TERM ^ ;
-
 CREATE TRIGGER PROJECT_EMPLOYEES_TRIG FOR PROJECTEMPLOYEES 
  ACTIVE 
  BEFORE INSERT OR UPDATE 
@@ -413,10 +411,6 @@ BEGIN
      exception ERROR_NO_CONTRACT;  
 END^
 
-SET TERM ; ^
-
-SET TERM ^ ;
-
 CREATE TRIGGER JOBS_TRIG FOR JOBS 
  ACTIVE 
  BEFORE INSERT OR UPDATE 
@@ -431,9 +425,23 @@ BEGIN
             (new.COMPLETIONDATE between js.STARTDATE and js.COMPLETIONDATE)   
         )
         into jid;
-    if (jid is not null) then
+    if (jid is not null and jid <> new.ID) then
         exception ERROR_EMPLOYEE_BUSY;
 END^
+
+CREATE TRIGGER JOURNAL_TRIG FOR JOURNAL
+ ACTIVE 
+ BEFORE UPDATE 
+ POSITION 0 
+AS 
+declare variable pass VARCHAR(20);
+BEGIN
+    select u.passwd from USERS u where new.login = u.login into pass;
+    
+    if ((pass is null) or new.passwd <> pass) then
+        exception ERROR_LOGIN_FAIL;
+END^
+
 
 SET TERM ; ^
 

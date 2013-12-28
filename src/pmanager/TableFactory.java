@@ -76,6 +76,7 @@ public class TableFactory implements ActionListener{
         };
         m.put("tasks", new TableDataModel("tasks", "Задачи", cellsModel6));
         TableCellModel[] cellsModel7 = {
+            new TableCellModel("id", "Id", "CardIdTextField", ""),
             new TableCellModel("employeeId", "Разработчик", "CardComboBox", "employees"),
             new TableCellModel("taskId", "Задача", "CardComboBox", "tasks"),
             new TableCellModel("startDate", "Дата начала", "CardDateTimeField", ""),
@@ -101,9 +102,7 @@ public class TableFactory implements ActionListener{
             desktopPane.add(tif);
             tif.toFront();
         } else if (event.equals("chart")) {
-            TableDataModel tdm = (TableDataModel)m.get("tasks");
-            dbCon.refeelDataModel(tdm);
-            gChart.make(1);//TODO сделать выбор проекта
+            GanttChartSelectorFrame gframe = new GanttChartSelectorFrame(dbCon);
         } else if (event.equals("jreport")) {
             TableJobsReport tpr = new TableJobsReport(dbCon);
             desktopPane.add(tpr);

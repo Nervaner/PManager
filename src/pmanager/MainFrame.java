@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
             }
         } catch(Exception e) {
             throw(new Exception("Failed to set LookAndFeel."));
-        }
+        }       
         //TODO проверить работоспособность в упакованном виде
         String path = getClass().getClassLoader().getResource("").getPath();
         path += "../../DB/TEST.fdb";
@@ -60,8 +60,10 @@ public class MainFrame extends JFrame {
         JMenuItem miCompanies = new JMenuItem("Компании");
         JMenuItem miEmployees = new JMenuItem("Разработчики");
         JMenuItem miProjects = new JMenuItem("Проекты");
+        JMenuItem miProjectEmployees = new JMenuItem("Назначенные разработчики");
         JMenuItem miTasks = new JMenuItem("Задачи");
         JMenuItem miJobs = new JMenuItem("Проведенные работы");
+        JMenuItem miTasksDependency = new JMenuItem("Зависимость задач"); 
         JMenuItem miGanttChart = new JMenuItem("Диаграмма");
         JMenuItem miJobsReport = new JMenuItem("Проведенные работы");
         
@@ -69,8 +71,10 @@ public class MainFrame extends JFrame {
         miCompanies.setActionCommand("companies");
         miEmployees.setActionCommand("employees");      
         miProjects.setActionCommand("projects");
+        miProjectEmployees.setActionCommand("projectEmployees");
         miTasks.setActionCommand("tasks");
         miJobs.setActionCommand("jobs");
+        miTasksDependency.setActionCommand("tasksDependency");
         miGanttChart.setActionCommand("chart");
         miJobsReport.setActionCommand("jreport");
         
@@ -78,8 +82,10 @@ public class MainFrame extends JFrame {
         miCompanies.addActionListener(tableFactory);
         miEmployees.addActionListener(tableFactory);
         miProjects.addActionListener(tableFactory);
+        miProjectEmployees.addActionListener(tableFactory);
         miTasks.addActionListener(tableFactory);
         miJobs.addActionListener(tableFactory);
+        miTasksDependency.addActionListener(tableFactory);
         miGanttChart.addActionListener(tableFactory);
         miJobsReport.addActionListener(tableFactory);
         
@@ -87,8 +93,10 @@ public class MainFrame extends JFrame {
         tables.add(miCompanies);
         tables.add(miEmployees);
         tables.add(miProjects);
+        tables.add(miProjectEmployees);
         tables.add(miTasks);
         tables.add(miJobs);
+        tables.add(miTasksDependency);
         reports.add(miGanttChart);
         reports.add(miJobsReport);
         
@@ -96,7 +104,7 @@ public class MainFrame extends JFrame {
         mainMenu.add(reports);
         setJMenuBar(mainMenu);
         
-        
+        JFrame login = new LoginFrame(dbCon, this);
         
         
         

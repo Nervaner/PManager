@@ -18,10 +18,11 @@ import javax.swing.JTable;
 public class AppRun {
     
     public static void main(String args[]) {
+        
+        
         try {
-            JFrame login = new LoginFrame();
             JFrame mainFrame = new MainFrame("Main Frame");
-            mainFrame.setVisible(true);
+            mainFrame.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         } 
